@@ -1,7 +1,6 @@
 #agents_core.py
 
 
-
 from typing import Annotated, List, TypedDict
 from langchain_core.messages import HumanMessage
 from langchain_ollama import ChatOllama
@@ -26,7 +25,7 @@ def supervisor_node(state: AgentState):
     if any(keyword in last_message for keyword in ["کد", "پروژه", "فریم‌ورک", "برنامه‌نویسی", "ساخت", "توسعه", "دیباگ", "اپلیکیشن", "سایت"]):
         return {"next_agent": "CodeArchitectAgent"}
     elif any(keyword in last_message for keyword in ["کتاب", "رمان", "منبع", "مطالعه", "نویسنده", "خلاصه کتاب"]):
-        return {"next_agent": "BookAdvisorAdvisor"} # اصلاح‌شده
+        return {"next_agent": "BookAdvisorAgent"}
     elif any(keyword in last_message for keyword in ["قیمت", "فلز", "ارز", "فولاد", "آهن", "دلار", "نرخ"]):
         return {"next_agent": "DataAgent"}
     elif any(keyword in last_message for keyword in ["پرواز", "سفر", "هواپیما", "بلیط", "رزرو"]):
@@ -34,27 +33,40 @@ def supervisor_node(state: AgentState):
     else:
         return {"next_agent": "GeneralAgent"}
 
+def get_agent_prompt(agent_name: str, user_prompt: str) -> str:
+    """تولید پرامپت اختصاصی بر اساس نوع ایجنت برای هدایت دقیق مدل"""
+    if agent_name == "CodeArchitectAgent":
+        return (
+            f"تو یک معمار ارشد نرم‌افزار هستی. برای درخواست زیر، باید حتماً کدهای کامل و کاربردی پروژه را بنویسید.\n"
+            f"درخواست کاربر: {user_prompt}\n\n"
+            "دستورالعمل‌های اجباری:\n"
+            "1. به هیچ وجه به ساخت یک فایل خالی اکتفا نکن. کدهای واقعی، کامل و اجرایی پایتون را درون فایل‌ها قرار ده.\n"
+            "2. نام مسیر نسبی هر فایل را دقیقاً در خط بالای بلوک کد بنویس.\n"
+            "3. کدهای هر فایل را دقیقاً داخل بلوک مارک‌داون (مانند python) قرار بده.\n"
+            "فرمت دقیق خروجی که باید رعایت کنی:\n\n"
+            "main.py\n"
+            "python\n"
+            "from fastapi import FastAPI\n"
+            "app = FastAPI()\n\n"
+            '@app.get("/")\n'
+            "def read_root():\n"
+            '    return {"message": "Hello World"}\n'
+            "```\n\n"
+            "حالا کدهای پروژه درخواستی کاربر را با همین فرمت کامل تولید کن:"
+        )
+    elif agent_name == "BookAdvisorAgent":
+        return f"تو یک مشاور کتاب هستی. به این درخواست پاسخ بده:\n{user_prompt}"
+    elif agent_name == "DataAgent":
+        return f"تو تحلیل‌گر بازار هستی:\n{user_prompt}"
+    elif agent_name == "TravelAgent":
+        return f"تو متخصص سفر هستی:\n{user_prompt}"
+    else:
+        return user_prompt
+
+# توابع همگام قبلی برای درخواست‌های معمولی حفظ شده‌اند
 def code_architect_agent_node(state: AgentState):
     user_prompt = state["messages"][-1]
-    # پرامپت صارم و دقیق برای اجبار مدل به تولید کدهای واقعی
-    prompt = (
-        f"تو یک معمار ارشد نرم‌افزار هستی. برای درخواست زیر، باید حتماً کدهای کامل و کاربردی پروژه را بنویسید.\n"
-        f"درخواست کاربر: {user_prompt}\n\n"
-        "دستورالعمل‌های اجباری:\n"
-        "1. به هیچ وجه به ساخت یک فایل خالی اکتفا نکن. کدهای واقعی، کامل و اجرایی پایتون را درون فایل‌ها قرار ده.\n"
-        "2. نام مسیر نسبی هر فایل را دقیقاً در خط بالای بلوک کد بنویس.\n"
-        "3. کدهای هر فایل را دقیقاً داخل بلوک مارک‌داون (مانند python) قرار بده.\n"
-        "فرمت دقیق خروجی که باید رعایت کنی:\n\n"
-        "main.py\n"
-        "python\n"
-        "from fastapi import FastAPI\n"
-        "app = FastAPI()\n\n"
-        '@app.get("/")\n'
-        "def read_root():\n"
-        '    return {"message": "Hello World"}\n'
-        "```\n\n"
-        "حالا کدهای پروژه درخواستی کاربر را با همین فرمت کامل تولید کن:"
-    )
+    prompt = get_agent_prompt("CodeArchitectAgent", user_prompt)
     try:
         response = llm.invoke([HumanMessage(content=prompt)])
         content = response.content
@@ -64,7 +76,7 @@ def code_architect_agent_node(state: AgentState):
 
 def book_advisor_agent_node(state: AgentState):
     user_prompt = state["messages"][-1]
-    prompt = f"تو یک مشاور کتاب هستی. به این درخواست پاسخ بده:\n{user_prompt}"
+    prompt = get_agent_prompt("BookAdvisorAgent", user_prompt)
     try:
         response = llm.invoke([HumanMessage(content=prompt)])
         content = response.content
@@ -74,7 +86,7 @@ def book_advisor_agent_node(state: AgentState):
 
 def data_agent_node(state: AgentState):
     user_prompt = state["messages"][-1]
-    prompt = f"تو تحلیل‌گر بازار هستی:\n{user_prompt}"
+    prompt = get_agent_prompt("DataAgent", user_prompt)
     try:
         response = llm.invoke([HumanMessage(content=prompt)])
         content = response.content
@@ -84,7 +96,7 @@ def data_agent_node(state: AgentState):
 
 def travel_agent_node(state: AgentState):
     user_prompt = state["messages"][-1]
-    prompt = f"تو متخصص سفر هستی:\n{user_prompt}"
+    prompt = get_agent_prompt("TravelAgent", user_prompt)
     try:
         response = llm.invoke([HumanMessage(content=prompt)])
         content = response.content
