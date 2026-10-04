@@ -6,7 +6,9 @@
     <title>Tactical HUD - Cinematic Edition</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        tailwind.config = { darkMode: 'class' }
+        tailwind.config = {
+            darkMode: 'class',
+        }
     </script>
     <link rel="stylesheet" href="style.css">
     <style>
@@ -15,19 +17,17 @@
         .metric-circle-gpu { background: conic-gradient(#f97316 223deg, #1e293b 0deg); }
         .metric-circle-cpu { background: conic-gradient(#f97316 158deg, #1e293b 0deg); }
 
-        /* پالت رنگی شیک و ملایم لایت‌مود (الهام گرفته از بیس رنگی روشن و طوسی ملایم) */
+        /* پالت رنگی ملایم لایت‌مود */
         html:not(.dark) body {
-            background-color: #ffffff !important;
+            background-color: #f4f6f9 !important;
             color: #1e293b !important;
         }
-
         html:not(.dark) .cyber-card {
-            background-color: #f8fafc important;
+            background-color: #ffffff !important;
             color: #0f172a !important;
             border-color: rgba(234, 88, 12, 0.25) !important;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
         }
-
         html:not(.dark) #box-vcommands,
         html:not(.dark) .bg-black\/40,
         html:not(.dark) .bg-black\/50,
@@ -36,50 +36,32 @@
             color: #334155 !important;
             border-color: rgba(234, 88, 12, 0.2) !important;
         }
-
         html:not(.dark) .bg-black\/80,
         html:not(.dark) .bg-black\/90 {
             background-color: #ffffff !important;
             color: #1e293b !important;
             border-color: rgba(234, 88, 12, 0.3) !important;
         }
-
         html:not(.dark) #chat-box {
-            background-color: #F1F5F9 !important;
+            background-color: #fafbfc !important;
             color: #1e293b !important;
         }
-
         html:not(.dark) input#user-input {
             color: #0f172a !important;
         }
 
-        html:not(.dark) .text-slate-800,
-        html:not(.dark) .text-slate-700,
-        html:not(.dark) .text-slate-300,
-        html:not(.dark) .text-white {
-            color: #1e293b !important;
-        }
-
-        html:not(.dark) .text-slate-400,
-        html:not(.dark) .text-slate-500 {
-            color: #64748b !important;
-        }
-
-        html:not(.dark) .energy-beam-h { background: linear-gradient(90deg, transparent, rgba(234, 88, 12, 0.8), transparent) !important; }
-        html:not(.dark) .energy-beam-v { background: linear-gradient(180deg, transparent, rgba(234, 88, 12, 0.8), transparent) !important; }
-        html:not(.dark) .reactor-ring { border-color: rgba(234, 88, 12, 0.3) !important; }
-
         #chat-box {
             user-select: text !important;
             -webkit-user-select: text !important;
+            margin-bottom: 6px !important;
         }
 
-        /* کنترل دقیق مقیاس راکتور برای عدم تداخل با چت‌باکس */
         .reactor-core-container {
-            transition: all 0.4s ease-in-out;
-            transform: scale(0.65);
-            margin-top: -5px;
-            margin-bottom: -5px;
+            transition: all 0.3s ease-in-out;
+            transform: scale(0.55);
+            margin-top: -10px;
+            margin-bottom: -10px;
+            filter: drop-shadow(0 0 25px rgba(255, 120, 0, 0.6));
         }
         .chat-expanded .reactor-core-container {
             transform: scale(0.42);
@@ -87,103 +69,185 @@
             margin-bottom: -15px !important;
         }
         .chat-expanded #chat-box {
-            height: 140px !important;
+           	
+        }
+
+        .fire-eye-core {
+            position: relative;
+            transform-style: preserve-3d;
+            perspective: 700px;
+        }
+
+        .pupil-slit {
+            transform: translateZ(30px);
+            box-shadow: 0 0 18px rgba(255, 140, 0, 1), inset 0 0 10px rgba(255, 255, 220, 0.9);
+            background: radial-gradient(circle, #fff7cc 15%, #ff8800 55%, #cc2200 85%, #2a0000 100%);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+        }
+        .pupil-slit::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-radial-gradient(circle, transparent, transparent 3px, rgba(255, 215, 0, 0.35) 5px, transparent 7px);
+            opacity: 0.8;
+            pointer-events: none;
+            border-radius: inherit;
+        }
+
+        .core-plasma-glow {
+            background: radial-gradient(circle, rgba(255,200,50,0.8) 0%, rgba(255,90,0,0.6) 50%, rgba(150,20,0,0.2) 80%, transparent 100%);
+            box-shadow: 0 0 35px rgba(255, 165, 0, 0.5), inset 0 0 20px rgba(255, 255, 0, 0.6);
+        }
+
+        .outer-sunburst-rays {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 90, 0, 0.8);
+            box-shadow: 0 0 30px rgba(255, 60, 0, 0.9), inset 0 0 30px rgba(255, 120, 0, 0.7);
+            z-index: 999;
+            pointer-events: none;
+            animation: pulse-glow 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% {
+                transform: scale(0.95);
+                box-shadow: 0 0 20px rgba(255, 60, 0, 0.6), inset 0 0 20px rgba(255, 120, 0, 0.5);
+            }
+            50% {
+                transform: scale(1.08);
+                box-shadow: 0 0 50px rgba(255, 90, 0, 1), inset 0 0 40px rgba(255, 150, 0, 0.9);
+            }
         }
     </style>
 </head>
-<body class="h-screen flex flex-col justify-between p-2 select-none overflow-hidden transition-colors duration-300 bg-[#020408] text-[#ff4500]">
+<body class="h-screen flex flex-col justify-between p-2 select-none overflow-x-hidden overflow-y-auto md:overflow-hidden transition-colors duration-300 bg-[#020408]">
 
     <!-- Top Header -->
-    <header id="main-header" class="flex justify-between items-center cyber-card px-4 py-2 rounded text-xs transition-colors duration-300">
-        <button onclick="toggleTheme()" class="cyber-btn w-9 h-9 rounded-lg flex items-center justify-center shadow-lg transition-transform active:scale-95 cursor-pointer order-1 md:order-none" title="تغییر تم">
-            <svg id="theme-icon-svg" class="w-5 h-5 text-orange-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <header id="main-header" class="flex justify-between items-center cyber-card px-3 py-1.5 rounded text-xs transition-colors duration-300 shrink-0">
+        <button onclick="toggleTheme()" class="cyber-btn w-8 h-8 rounded-lg flex items-center justify-center shadow-lg transition-transform active:scale-95 cursor-pointer">
+            <svg id="theme-icon-svg" class="w-4 h-4 text-orange-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="12" r="5"></circle>
                 <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
             </svg>
         </button>
 
-        <div class="hidden md:flex items-center gap-5">
-            <div class="w-[64px] h-[64px] rounded-full metric-circle-agents p-[2px] flex items-center justify-center shadow-[0_0_12px_rgba(16,185,129,0.3)]">
-                <div class="w-full h-full rounded-full bg-white dark:bg-black flex flex-col items-center justify-center">
-                    <span class="text-[11px] text-slate-800 dark:text-white font-bold">100%</span>
-                    <span class="text-[7px] text-green-600 dark:text-green-400 font-mono">AGENTS</span>
-                </div>
-            </div>
-            <div class="w-[64px] h-[64px] rounded-full metric-circle-mem p-[2px] flex items-center justify-center shadow-[0_0_12px_rgba(6,182,212,0.3)]">
-                <div class="w-full h-full rounded-full bg-white dark:bg-black flex flex-col items-center justify-center">
-                    <span class="text-[11px] text-slate-800 dark:text-white font-bold">75%</span>
-                    <span class="text-[7px] text-cyan-600 dark:text-cyan-400 font-mono">MEM</span>
-                </div>
-            </div>
-            <div class="w-[64px] h-[64px] rounded-full metric-circle-gpu p-[2px] flex items-center justify-center shadow-[0_0_12px_rgba(249,115,22,0.3)]">
-                <div class="w-full h-full rounded-full bg-white dark:bg-black flex flex-col items-center justify-center">
-                    <span class="text-[11px] text-slate-800 dark:text-white font-bold">62%</span>
-                    <span class="text-[7px] text-orange-600 dark:text-orange-400 font-mono">GPU</span>
-                </div>
-            </div>
-            <div class="w-[64px] h-[64px] rounded-full metric-circle-cpu p-[2px] flex items-center justify-center shadow-[0_0_12px_rgba(249,115,22,0.3)]">
-                <div class="w-full h-full rounded-full bg-white dark:bg-black flex flex-col items-center justify-center">
-                    <span class="text-[11px] text-slate-800 dark:text-white font-bold">44%</span>
-                    <span class="text-[7px] text-orange-600 dark:text-orange-400 font-mono">CPU</span>
-                </div>
-            </div>
-        </div>
-
         <div class="flex items-center gap-3 order-2 md:order-none">
-            <div id="supervisor-status" class="px-2.5 py-0.5 rounded text-[11px] bg-orange-100 dark:bg-orange-950 text-orange-700 dark:text-orange-400 border border-orange-500 font-mono">
+            <div id="supervisor-status" class="flex items-center justify-center h-7 px-3 rounded text-[11px] bg-orange-100 dark:bg-orange-950/80 text-orange-600 dark:text-orange-400 border border-orange-500/40 font-mono font-bold tracking-wider shadow-[0_0_12px_rgba(255,100,0,0.3)]">
                 SUPERVISOR: ACTIVE
             </div>
         </div>
     </header>
 
     <!-- Main Grid Layout -->
-    <main class="grid grid-cols-1 md:grid-cols-4 gap-2 my-2 flex-grow overflow-hidden">
-        
-        <!-- Left Panel -->
-        <div id="panel-left" class="cyber-card rounded p-2.5 flex flex-col justify-between text-[11px] space-y-2 transition-colors duration-300">
-            <div>
-                <div class="text-orange-600 dark:text-orange-500 font-bold border-b border-orange-500/30 pb-1 mb-1.5 text-left" dir="ltr">VOICE COMMANDS</div>
-                <div id="box-vcommands" class="space-y-1 text-[10px] text-orange-700 dark:text-orange-200 font-mono bg-slate-100 dark:bg-black/50 p-2 rounded border border-orange-500/20 text-left transition-colors duration-300" dir="ltr">
-                    <div>"Give project status report"</div>
-                    <div>"Analyze repository codes"</div>
-                    <div>"Execute 5 active agents"</div>
+    <main class="grid grid-cols-1 lg:grid-cols-12 gap-2 my-2 flex-grow overflow-hidden">
+
+        <!-- پنل سمت راست: منوهای هوشمند و تاریخچه -->
+        <div id="panel-left" class="lg:col-span-3 cyber-card rounded p-2.5 flex flex-col justify-between text-[11px] space-y-2 transition-colors duration-300 overflow-hidden">
+            <div class="space-y-2 overflow-y-auto max-h-[calc(100vh-170px)] pr-1">
+                <button onclick="startNewChat()" class="w-full bg-orange-600 hover:bg-orange-500 text-white font-bold py-2 px-3 rounded-lg flex items-center justify-center gap-2 transition-all shadow-md cursor-pointer border border-orange-400/30">
+                    <span>➕</span>
+                    <span class="text-xs">گفتگوی جدید</span>
+                </button>
+
+                <div>
+                    <div class="text-orange-500 font-bold tracking-wider border-b border-orange-500/30 pb-1 mb-2 text-right">
+                        منوهای هوشمند و ابزارها
+                    </div>
+                    <div class="space-y-1.5 font-sans text-[11px]">
+                        <div class="flex items-center justify-between bg-black/40 hover:bg-black/60 px-2.5 py-1.5 rounded border border-orange-500/25 cursor-pointer transition-all">
+                            <span class="text-slate-200 font-medium text-right">لیست مدل‌ها</span>
+                            <svg class="w-3.5 h-3.5 text-orange-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                        <div class="bg-black/30 p-1.5 rounded border border-orange-500/15 space-y-1">
+                            <div class="text-[10px] text-orange-400 font-mono text-right px-1">سرویس‌های اصلی</div>
+                            <div class="grid grid-cols-2 gap-1">
+                                <button class="bg-black/50 hover:bg-orange-600/20 text-slate-300 hover:text-white px-2 py-1 rounded text-right transition-colors border border-orange-500/15">تصویر 🖼️</button>
+                                <button class="bg-black/50 hover:bg-orange-600/20 text-slate-300 hover:text-white px-2 py-1 rounded text-right transition-colors border border-orange-500/15">ویدیو 🎬</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-2 border-t border-orange-500/20">
+                    <div class="text-orange-600 dark:text-orange-500 font-bold pb-1 mb-1 text-right">تاریخچه گفتگوها</div>
+                    <div id="dynamic-history-container" class="space-y-1.5 font-mono text-[10px] text-slate-700 dark:text-slate-300 text-right overflow-y-auto max-h-[100px]">
+                        <div class="bg-slate-100 dark:bg-black/50 p-1.5 rounded border border-orange-500/25 text-slate-400 italic text-right">
+                            هنوز گفتگویی ثبت نشده است...
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="flex-grow flex flex-col justify-center">
-                <div class="text-orange-600 dark:text-orange-500 font-bold border-b border-orange-500/30 pb-1 mb-1.5 text-left" dir="ltr">ACTIVE AGENTS (5 NODES)</div>
-                <div class="space-y-1.5 font-mono text-[10px]">
-                    <div class="flex items-center justify-between bg-slate-100 dark:bg-black/60 p-1.5 rounded border border-orange-500/10 transition-colors duration-300" dir="ltr">
-                        <span class="text-slate-800 dark:text-slate-200">1. CodeArchitect</span> 
-                        <span class="text-green-600 dark:text-green-400 font-bold">ONLINE</span>
+            <!-- بخش پایین پنل چپ: مانیتورینگ ۴گانه سیستم -->
+            <div class="mt-auto shrink-0 pt-3 border-t border-orange-500/30">
+                <div class="text-orange-500 font-bold text-[11px] tracking-wider border-b border-orange-500/30 pb-1.5 mb-2.5 text-left" dir="ltr">NODE_TELEMETRY</div>
+                <div class="flex flex-col gap-2" dir="ltr">
+                    
+                    <div class="flex items-center justify-between bg-black/50 hover:bg-black/70 px-2.5 py-1.5 rounded border border-orange-500/30 transition-all">
+                        <div class="flex items-center gap-2.5">
+                            <div id="gpu-circle" class="w-[32px] h-[32px] rounded-full p-[2px] flex items-center justify-center shrink-0 shadow-[0_0_8px_rgba(249,115,22,0.3)]" style="background: conic-gradient(#f97316 0deg, #27272a 0deg);">
+                                <div class="w-full h-full rounded-full bg-black flex items-center justify-center">
+                                    <span id="gpu-val" class="text-[9px] text-orange-400 font-bold font-mono">0%</span>
+                                </div>
+                            </div>
+                            <span class="text-[11px] text-slate-200 font-mono font-bold tracking-wide">GPU USAGE</span>
+                        </div>
+                        <span class="text-[9px] text-orange-500 font-mono font-bold">ACTIVE</span>
                     </div>
-                    <div class="flex items-center justify-between bg-slate-100 dark:bg-black/60 p-1.5 rounded border border-orange-500/10 transition-colors duration-300" dir="ltr">
-                        <span class="text-slate-800 dark:text-slate-200">2. BookAdvisor</span> 
-                        <span class="text-green-600 dark:text-green-400 font-bold">ONLINE</span>
+
+                    <div class="flex items-center justify-between bg-black/50 hover:bg-black/70 px-2.5 py-1.5 rounded border border-orange-500/30 transition-all">
+                        <div class="flex items-center gap-2.5">
+                            <div id="cpu-circle" class="w-[32px] h-[32px] rounded-full p-[2px] flex items-center justify-center shrink-0 shadow-[0_0_8px_rgba(249,115,22,0.3)]" style="background: conic-gradient(#f97316 0deg, #27272a 0deg);">
+                                <div class="w-full h-full rounded-full bg-black flex items-center justify-center">
+                                    <span id="cpu-val" class="text-[9px] text-orange-400 font-bold font-mono">0%</span>
+                                </div>
+                            </div>
+                            <span class="text-[11px] text-slate-200 font-mono font-bold tracking-wide">CPU LOAD</span>
+                        </div>
+                        <span class="text-[9px] text-orange-500 font-mono font-bold">STABLE</span>
                     </div>
-                    <div class="flex items-center justify-between bg-slate-100 dark:bg-black/60 p-1.5 rounded border border-orange-500/10 transition-colors duration-300" dir="ltr">
-                        <span class="text-slate-800 dark:text-slate-200">3. DataMarket</span> 
-                        <span class="text-green-600 dark:text-green-400 font-bold">ONLINE</span>
+
+                    <div class="flex items-center justify-between bg-black/50 hover:bg-black/70 px-2.5 py-1.5 rounded border border-orange-500/30 transition-all">
+                        <div class="flex items-center gap-2.5">
+                            <div id="ram-circle" class="w-[32px] h-[32px] rounded-full p-[2px] flex items-center justify-center shrink-0 shadow-[0_0_8px_rgba(6,182,212,0.3)]" style="background: conic-gradient(#06b6d4 0deg, #27272a 0deg);">
+                                <div class="w-full h-full rounded-full bg-black flex items-center justify-center">
+                                    <span id="ram-val" class="text-[9px] text-cyan-400 font-bold font-mono">0%</span>
+                                </div>
+                            </div>
+                            <span class="text-[11px] text-slate-200 font-mono font-bold tracking-wide">RAM ALLOC</span>
+                        </div>
+                        <span class="text-[9px] text-cyan-400 font-mono font-bold">OPTIMAL</span>
                     </div>
-                    <div class="flex items-center justify-between bg-slate-100 dark:bg-black/60 p-1.5 rounded border border-orange-500/10 transition-colors duration-300" dir="ltr">
-                        <span class="text-slate-800 dark:text-slate-200">4. MarketPulse</span> 
-                        <span class="text-green-600 dark:text-green-400 font-bold">ONLINE</span>
+
+                    <div class="flex items-center justify-between bg-black/50 hover:bg-black/70 px-2.5 py-1.5 rounded border border-orange-500/30 transition-all">
+                        <div class="flex items-center gap-2.5">
+                            <div id="vram-circle" class="w-[32px] h-[32px] rounded-full p-[2px] flex items-center justify-center shrink-0 shadow-[0_0_8px_rgba(249,115,22,0.3)]" style="background: conic-gradient(#f97316 0deg, #27272a 0deg);">
+                                <div class="w-full h-full rounded-full bg-black flex items-center justify-center">
+                                    <span id="vram-val" class="text-[9px] text-orange-400 font-bold font-mono">0%</span>
+                                </div>
+                            </div>
+                            <span class="text-[11px] text-slate-200 font-mono font-bold tracking-wide">TOTAL VRAM</span>
+                        </div>
+                        <span class="text-[9px] text-orange-500 font-mono font-bold">System</span>
                     </div>
-                    <div class="flex items-center justify-between bg-slate-100 dark:bg-black/60 p-1.5 rounded border border-orange-500/10 transition-colors duration-300" dir="ltr">
-                        <span class="text-slate-800 dark:text-slate-200">5. TribeSupervisor</span> 
-                        <span class="text-green-600 dark:text-green-400 font-bold">ONLINE</span>
-                    </div>
+
                 </div>
             </div>
         </div>
 
-        <!-- Center Panel: Reactor & Chat -->
-        <div id="panel-center" class="md:col-span-2 cyber-card rounded p-3 flex flex-col items-center justify-between relative overflow-hidden transition-colors duration-300">
-            
-            <div class="reactor-core-container my-auto">
+        <!-- Center Panel -->
+        <div id="panel-center" class="lg:col-span-6 cyber-card rounded p-3 flex flex-col items-center justify-between relative overflow-hidden transition-colors duration-300">
+
+            <div class="reactor-core-container mt-1 mb-auto">
                 <div class="reactor-ring ring-outer"></div>
                 <div class="reactor-ring ring-middle"></div>
                 <div class="reactor-ring ring-inner"></div>
+                <div class="outer-sunburst-rays"></div>
                 <div class="energy-beam-h"></div>
                 <div class="energy-beam-v"></div>
                 <div class="fire-eye-core">
@@ -197,92 +261,121 @@
             </div>
 
             <!-- Chat Box -->
-            <div id="chat-box" class="w-full h-32 bg-slate-50 dark:bg-black/80 border border-orange-500/30 rounded p-3 overflow-y-auto text-sm space-y-3 text-slate-800 dark:text-white text-right font-sans transition-all duration-300" dir="rtl">
-                <div class="text-slate-500 dark:text-slate-400 font-mono text-xs">// System Ready for Neural Commands...</div>
+            <div id="chat-box" class="w-full h-60 bg-slate-50 dark:bg-black/80  bg-slate-800/40 border  border-orange-500/30 rounded rounded-2xl p-3 overflow-y-auto text-sm space-y-3 text-slate-800 leading-relaxed" >
+                <div id="typewriter" class="text-orange-500 dark:text-orange-400 font-mono text-base font-semibold tracking-wide flex items-center justify-center h-full drop-shadow-[0_0_10px_rgba(255,120,0,0.8)] text-xl "></div>
             </div>
 
             <!-- Input Bar -->
-            <div class="mt-2 w-full flex flex-col gap-1">
-                <div class="flex justify-between items-center px-1 text-[10px]" dir="ltr">
-                    <span class="text-orange-600 dark:text-orange-500 font-mono">NEURAL_VOICE_LINK: ACTIVE</span>
-                    <span class="text-slate-500 font-mono">SYSTEM READY</span>
-                </div>
-
-                <div class="relative flex items-center bg-white dark:bg-black/90 border border-orange-500/50 rounded-full px-4 py-2 shadow-inner transition-colors duration-300" dir="rtl">
-                    <input type="text" id="user-input" placeholder="فرمان خود را به سیستم ارسال کنید..." 
-                        class="flex-grow bg-transparent text-slate-900 dark:text-white text-sm font-medium focus:outline-none pr-2 pl-2 text-right font-sans placeholder-slate-400">
-                    
-                    <button onclick="sendToJarvis()" class="bg-orange-600 hover:bg-orange-500 text-white dark:text-black w-8 h-8 rounded-full flex items-center justify-center transition-all shadow-md mr-1 cursor-pointer">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 transform rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            <div class="mt-1 w-full flex flex-col gap-1">
+                <div class="relative flex items-center justify-between bg-white dark:bg-black/90 border border-orange-500/50 rounded-full px-4 py-2 shadow-inner transition-colors">
+                    <input type="text" id="user-input" placeholder="سوال خود را بپرسید..." class="flex-grow bg-transparent text-slate-900 dark:text-white text-sm font-sans focus:outline-none px-2 text-right">
+                    <button onclick="sendToJarvis()" class="bg-orange-600 hover:bg-orange-500 text-white w-8 h-8 rounded-full flex items-center justify-center transition-colors flex-shrink-0 cursor-pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                         </svg>
                     </button>
                 </div>
             </div>
         </div>
+<!-- Right Panel: ایجنت‌های فعال -->
+<div id="panel-right" class="lg:col-span-3 cyber-card rounded p-3 flex flex-col justify-between text-[11px] space-y-2 transition-colors duration-300 overflow-hidden">
 
-        <!-- Right Panel -->
-        <div id="panel-right" class="cyber-card rounded p-2.5 flex flex-col justify-between text-[11px] space-y-2 transition-colors duration-300">
-            <div>
-                <div class="text-orange-600 dark:text-orange-500 font-bold border-b border-orange-500/30 pb-1 mb-1.5 text-left" dir="ltr">THOUGHT_STREAM</div>
-                <div class="space-y-1.5 font-mono text-[10px] text-slate-700 dark:text-slate-300 text-left" dir="ltr">
-                    <div class="bg-slate-100 dark:bg-black/50 p-1.5 rounded border-l-2 border-orange-500">
-                        <span class="text-orange-600 dark:text-orange-400 font-bold">SUPERVISOR:</span><br>Multi-agent pipeline active.
-                    </div>
-                    <div class="bg-slate-100 dark:bg-black/50 p-1.5 rounded border-l-2 border-green-500">
-                        <span class="text-green-600 dark:text-green-400 font-bold">SSE_STREAM:</span><br>Token synchronization OK.
-                    </div>
+    <!-- ۱. بخش بالای پنل: لیست ایجنت‌های فعال -->
+    <div class="flex flex-col overflow-hidden">
+        <div class="text-orange-500 font-bold tracking-wider border-b border-orange-500/30 pb-1 mb-2 text-left">
+            ACTIVE AGENTS
+        </div>
+        <div class="space-y-1.5 font-mono text-[10px] overflow-y-auto max-h-[220px]">
+            <!-- ایجنت ۱ -->
+            <div class="flex items-center justify-between bg-black/40 hover:bg-black/60 px-2 py-1.5 rounded border border-orange-500/20 hover:border-orange-500/50">
+                <div><span class="text-green-400 font-bold tracking-wider text-[9px]">ONLINE</span></div>
+                <div class="flex items-center space-x-2.5 space-x-reverse">
+                    <span class="text-slate-200 tracking-wide font-semibold">CodeArchitect</span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.8)] flex-shrink-0"></span>
                 </div>
             </div>
-
-            <div>
-                <div class="text-orange-600 dark:text-orange-500 font-bold border-b border-orange-500/30 pb-1 mb-1.5 text-left" dir="ltr">SYSTEM METRICS</div>
-                <div class="space-y-2 font-mono text-[10px] bg-slate-100 dark:bg-black/40 p-2 rounded transition-colors duration-300">
-                    <div class="flex items-center justify-between" dir="ltr">
-                        <span class="text-slate-700 dark:text-slate-300">CPU LOAD</span>
-                        <div class="flex items-center gap-2">
-                            <span class="text-orange-600 dark:text-orange-400 font-bold">44%</span>
-                            <div class="w-16 bg-slate-300 dark:bg-slate-800 h-1.5 rounded-full overflow-hidden">
-                                <div class="bg-orange-500 h-full rounded-full" style="width: 44%"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex items-center justify-between" dir="ltr">
-                        <span class="text-slate-700 dark:text-slate-300">GPU USAGE</span>
-                        <div class="flex items-center gap-2">
-                            <span class="text-orange-600 dark:text-orange-400 font-bold">62%</span>
-                            <div class="w-16 bg-slate-300 dark:bg-slate-800 h-1.5 rounded-full overflow-hidden">
-                                <div class="bg-orange-500 h-full rounded-full" style="width: 62%"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex items-center justify-between" dir="ltr">
-                        <span class="text-slate-700 dark:text-slate-300">RAM ALLOC</span>
-                        <div class="flex items-center gap-2">
-                            <span class="text-cyan-600 dark:text-cyan-400 font-bold">75%</span>
-                            <div class="w-16 bg-slate-300 dark:bg-slate-800 h-1.5 rounded-full overflow-hidden">
-                                <div class="bg-cyan-500 dark:bg-cyan-400 h-full rounded-full" style="width: 75%"></div>
-                            </div>
-                        </div>
-                    </div>
+            <!-- ایجنت ۲ -->
+            <div class="flex items-center justify-between bg-black/40 hover:bg-black/60 px-2 py-1.5 rounded border border-orange-500/20 hover:border-orange-500/50">
+                <div><span class="text-green-400 font-bold tracking-wider text-[9px]">ONLINE</span></div>
+                <div class="flex items-center space-x-2.5 space-x-reverse">
+                    <span class="text-slate-200 tracking-wide font-semibold">BookAdvisor</span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.8)] flex-shrink-0"></span>
                 </div>
             </div>
-
-            <div class="p-1.5 bg-slate-100 dark:bg-black/60 border border-orange-500/20 rounded text-[9px] text-slate-600 dark:text-slate-400 text-center font-mono transition-colors duration-300" dir="ltr">
-                TACTICAL PROTOCOL ENGAGED<br>SECURE NEURAL LINK
+            <!-- ایجنت ۳ (DataMarket) -->
+            <div class="flex items-center justify-between bg-black/40 hover:bg-black/60 px-2 py-1.5 rounded border border-orange-500/20 hover:border-orange-500/50">
+                <div><span class="text-green-400 font-bold tracking-wider text-[9px]">ONLINE</span></div>
+                <div class="flex items-center space-x-2.5 space-x-reverse">
+                    <span class="text-slate-200 tracking-wide font-semibold">DataMarket</span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.8)] flex-shrink-0"></span>
+                </div>
+            </div>
+            <!-- ایجنت ۴ -->
+            <div class="flex items-center justify-between bg-black/40 hover:bg-black/60 px-2 py-1.5 rounded border border-orange-500/20 hover:border-orange-500/50">
+                <div><span class="text-green-400 font-bold tracking-wider text-[9px]">ONLINE</span></div>
+                <div class="flex items-center space-x-2.5 space-x-reverse">
+                    <span class="text-slate-200 tracking-wide font-semibold">MarketPulse</span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.8)] flex-shrink-0"></span>
+                </div>
+            </div>
+            <!-- ایجنت ۵ -->
+            <div class="flex items-center justify-between bg-black/40 hover:bg-black/60 px-2 py-1.5 rounded border border-orange-500/20 hover:border-orange-500/50">
+                <div><span class="text-green-400 font-bold tracking-wider text-[9px]">ONLINE</span></div>
+                <div class="flex items-center space-x-2.5 space-x-reverse">
+                    <span class="text-slate-200 tracking-wide font-semibold">TribeSupervisor</span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.8)] flex-shrink-0"></span>
+                </div>
             </div>
         </div>
+    </div>
+
+    <!-- ۲. بخش وسط پنل: باکس گرافیکی نئونی و تله‌متری -->
+    <div class="p-3 bg-black/60 border border-orange-500/40 rounded-lg shadow-[0_0_15px_rgba(255,120,0,0.15)] backdrop-blur-sm space-y-2.5 w-full box-border">
+        <!-- هدر بالا -->
+        <div class="flex items-center justify-between text-[10px] sm:text-xs font-mono tracking-wider text-orange-400">
+            <span class="flex items-center gap-1.5 truncate">
+                <span class="w-2 h-2 rounded-full bg-orange-500 animate-ping shrink-0"></span>
+                <span class="truncate">NEURAL_CORE_LINK</span>
+            </span>
+            <span class="text-orange-300/80 shrink-0">SYNCHRONIZED</span>
+        </div>
+
+        <!-- نوار پیشرفت و درصد فرکانس -->
+        <div class="space-y-1">
+            <div class="flex justify-between items-center text-[9px] sm:text-[10px] font-mono text-slate-400">
+                <span class="truncate">SYNAPSE FREQUENCY</span>
+                <span class="text-orange-400 font-bold shrink-0">99.8%</span>
+            </div>
+            <div class="w-full h-1.5 bg-orange-950/50 rounded-full overflow-hidden border border-orange-500/20">
+                <div class="h-full bg-gradient-to-r from-orange-600 via-amber-500 to-orange-400 rounded-full w-[85%] animate-pulse"></div>
+            </div>
+        </div>
+
+        <!-- فوتر پایین باکس -->
+        <div class="flex flex-wrap justify-between items-center pt-1.5 border-t border-orange-500/20 text-[9px] sm:text-[10px] font-mono text-slate-400 gap-1">
+            <span class="truncate">ENC: <strong class="text-orange-300">QUANTUM-AES</strong></span>
+            <span class="text-orange-500 font-semibold shrink-0">SECURE // OK</span>
+        </div>
+    </div>
+
+    <!-- ۳. بخش پایین پنل: متن تاکتیکی -->
+    <div class="p-1.5 bg-slate-100 dark:bg-black/60 border border-orange-500/20 rounded text-[9px] text-slate-600 dark:text-slate-400 text-center font-mono shrink-0">
+        TACTICAL PROTOCOL ENGAGED<br>SECURE NEURAL LINK
+    </div>
+
+</div>
 
     </main>
 
     <script>
         let currentSessionId = "session-" + Math.random().toString(36).substring(2, 9);
-        let chatHistory = []; 
+        let chatHistory = [];
 
         function toggleTheme() {
             const html = document.documentElement;
             const svgIcon = document.getElementById('theme-icon-svg');
-            
+            if (!svgIcon) return;
+
             if (html.classList.contains('dark')) {
                 html.classList.remove('dark');
                 svgIcon.innerHTML = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>';
@@ -293,6 +386,7 @@
         }
 
         function copyTextToClipboard(text, btnElement) {
+            if (!btnElement) return;
             if (navigator.clipboard && navigator.clipboard.writeText) {
                 navigator.clipboard.writeText(text).then(() => {
                     showCopySuccess(btnElement);
@@ -319,23 +413,23 @@
         }
 
         function showCopySuccess(btnElement) {
+            if (!btnElement) return;
             const originalHTML = btnElement.innerHTML;
-            btnElement.innerHTML = '<svg class="w-4 h-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>';
+            btnElement.innerHTML = '<svg class="w-4 h-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>';
             setTimeout(() => {
-                btnElement.innerHTML = originalHTML;
+                if (btnElement) btnElement.innerHTML = originalHTML;
             }, 2000);
         }
 
-        // منطق جدید و امن لایک/دیس‌لایک انحصاری (جلوگیری از کلیک همزمان)
         function handleLike(btnElement, dislikeBtnId, countSpanId, dislikeCountSpanId) {
             const likeCountSpan = document.getElementById(countSpanId);
             const dislikeCountSpan = document.getElementById(dislikeCountSpanId);
             const dislikeBtn = document.getElementById(dislikeBtnId);
+            if (!likeCountSpan || !dislikeCountSpan || !dislikeBtn || !btnElement) return;
 
             let currentLikes = parseInt(likeCountSpan.innerText) || 0;
             let currentDislikes = parseInt(dislikeCountSpan.innerText) || 0;
 
-            // اگر دیس‌لایک از قبل فعال بوده، آن را خاموش کن
             if (dislikeBtn.classList.contains('disliked')) {
                 dislikeBtn.classList.remove('disliked', 'text-red-500', 'text-red-400');
                 dislikeBtn.classList.add('text-orange-500', 'dark:text-orange-400');
@@ -343,7 +437,6 @@
                 dislikeCountSpan.innerText = currentDislikes;
             }
 
-            // وضعیت لایک را تغییر بده
             if (!btnElement.classList.contains('liked')) {
                 btnElement.classList.add('liked', 'text-green-500');
                 btnElement.classList.remove('text-orange-500', 'dark:text-orange-400');
@@ -360,11 +453,11 @@
             const dislikeCountSpan = document.getElementById(countSpanId);
             const likeCountSpan = document.getElementById(likeCountSpanId);
             const likeBtn = document.getElementById(likeBtnId);
+            if (!dislikeCountSpan || !likeCountSpan || !likeBtn || !btnElement) return;
 
             let currentDislikes = parseInt(dislikeCountSpan.innerText) || 0;
             let currentLikes = parseInt(likeCountSpan.innerText) || 0;
 
-            // اگر لایک از قبل فعال بوده، آن را خاموش کن
             if (likeBtn.classList.contains('liked')) {
                 likeBtn.classList.remove('liked', 'text-green-500');
                 likeBtn.classList.add('text-orange-500', 'dark:text-orange-400');
@@ -372,7 +465,6 @@
                 likeCountSpan.innerText = currentLikes;
             }
 
-            // وضعیت دیس‌لایک را تغییر بده
             if (!btnElement.classList.contains('disliked')) {
                 btnElement.classList.add('disliked', 'text-red-500');
                 btnElement.classList.remove('text-orange-500', 'dark:text-orange-400');
@@ -393,17 +485,38 @@
             }
         }
 
+        function startNewChat() {
+            currentSessionId = "session-" + Math.random().toString(36).substring(2, 9);
+            chatHistory = [];
+            const chatBox = document.getElementById('chat-box');
+            const centerPanel = document.getElementById('panel-center');
+            if (chatBox) {
+                chatBox.innerHTML = '<div id="typewriter" class="text-orange-500 dark:text-orange-400 font-mono text-base font-semibold tracking-wide flex items-center justify-center h-full drop-shadow-[0_0_10px_rgba(255,120,0,0.8)]"></div>';
+            }
+            if (centerPanel) {
+                centerPanel.classList.remove('chat-expanded');
+            }
+            runTypewriterInit();
+        }
+
         async function sendToJarvis() {
             const inputField = document.getElementById('user-input');
             const chatBox = document.getElementById('chat-box');
             const centerPanel = document.getElementById('panel-center');
             const supervisorBadge = document.getElementById('supervisor-status');
-            
-            if (!inputField) return;
+
+            if (!inputField || !chatBox) return;
             const text = inputField.value.trim();
             if (!text) return;
 
-            centerPanel.classList.add('chat-expanded');
+            const typewriterEl = document.getElementById('typewriter');
+            if (typewriterEl) {
+                typewriterEl.style.display = 'none';
+            }
+
+            if (centerPanel) {
+                centerPanel.classList.add('chat-expanded');
+            }
 
             const userMsgId = 'user-msg-' + Date.now();
             const escapedTextForEdit = text.replace(/'/g, "\\'").replace(/"/g, '&quot;');
@@ -413,20 +526,20 @@
                 <div class="flex flex-col gap-2 my-2 bg-slate-100 dark:bg-black/40 p-3 rounded border border-orange-500/20" id="${userMsgId}">
                     <div class="flex justify-between items-start">
                         <div class="flex items-center gap-2">
-                            <span class="text-base">👤</span> 
+                            <span class="text-base">👤</span>
                             <span class="text-slate-900 dark:text-white text-sm font-medium select-text leading-relaxed">${escapeHtml(text)}</span>
                         </div>
                         <div class="flex items-center gap-2">
-                            <button onclick="editUserMessage('${escapedTextForEdit}')" class="text-orange-600 dark:text-orange-400 hover:text-orange-500 p-1 rounded hover:bg-orange-500/10 cursor-pointer" title="ویرایش">
-                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                            <button onclick="editUserMessage('${escapedTextForEdit}')" class="text-orange-600 dark:text-orange-400 hover:text-orange-500 p-1 rounded hover:bg-orange-500/10 transition-colors">
+                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                             </button>
-                            <button onclick="copyTextToClipboard('${escapedTextForCopy}', this)" class="text-orange-600 dark:text-orange-400 hover:text-orange-500 p-1 rounded hover:bg-orange-500/10 cursor-pointer" title="کپی">
-                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                            <button onclick="copyTextToClipboard('${escapedTextForCopy}', this)" class="text-orange-600 dark:text-orange-400 hover:text-orange-500 p-1 rounded hover:bg-orange-500/10 transition-colors">
+                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
                             </button>
                         </div>
                     </div>
                 </div>`;
-            
+
             inputField.value = '';
             chatBox.scrollTop = chatBox.scrollHeight;
 
@@ -443,19 +556,16 @@
                             <span class="text-base">🤖</span>
                         </div>
                         <div class="flex items-center gap-3">
-                            <!-- دکمه لایک -->
-                            <button id="${likeBtnId}" onclick="handleLike(this, '${dislikeBtnId}', '${likeCountId}', '${dislikeCountId}')" class="flex items-center gap-1 text-orange-600 dark:text-orange-400 hover:text-orange-500 p-1 rounded hover:bg-orange-500/10 cursor-pointer" title="لایک">
-                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5"/></svg>
+                            <button id="${likeBtnId}" onclick="handleLike(this, '${dislikeBtnId}', '${likeCountId}', '${dislikeCountId}')" class="flex items-center gap-1 text-orange-500 dark:text-orange-400 hover:text-green-500 transition-colors">
+                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5"></path></svg>
                                 <span id="${likeCountId}" class="text-xs font-mono">0</span>
                             </button>
-                            <!-- دکمه دیس‌لایک -->
-                            <button id="${dislikeBtnId}" onclick="handleDislike(this, '${likeBtnId}', '${dislikeCountId}', '${likeCountId}')" class="flex items-center gap-1 text-orange-600 dark:text-orange-400 hover:text-orange-500 p-1 rounded hover:bg-orange-500/10 cursor-pointer" title="دیس‌لایک">
-                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14H5.236a2 2 0 01-1.789-2.894l3.5-7A2 2 0 018.737 3h4.018a2 2 0 01.485.06l3.764.94m-7 10v5a2 2 0 002 2h.095c.5 0 .905-.405.905-.905 0-.714.211-1.412.608-2.006L17 13V4m-7 10h2m5-10h2a2 2 0 012 2v6a2 2 0 01-2 2h-2.5"/></svg>
+                            <button id="${dislikeBtnId}" onclick="handleDislike(this, '${likeBtnId}', '${dislikeCountId}', '${likeCountId}')" class="flex items-center gap-1 text-orange-500 dark:text-orange-400 hover:text-red-500 transition-colors">
+                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14H5.236a2 2 0 01-1.789-2.894l3.5-7A2 2 0 018.737 3h4.018a2 2 0 01.485.06l3.76.94m-7 10v5a2 2 0 002 2h.095c.5 0 .905-.405.905-.905 0-.714.211-1.412.608-2.006L17 13V4m-7 10h2m5-10h2a2 2 0 012 2v6a2 2 0 01-2 2h-2.5"></path></svg>
                                 <span id="${dislikeCountId}" class="text-xs font-mono">0</span>
                             </button>
-                            <!-- دکمه کپی -->
-                            <button onclick="copyTextToClipboard(document.getElementById('${responseId}-content').innerText, this)" class="text-orange-600 dark:text-orange-400 hover:text-orange-500 p-1 rounded hover:bg-orange-500/10 cursor-pointer" title="کپی">
-                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                            <button onclick="copyTextToClipboard(document.getElementById('${responseId}-content').innerText, this)" class="text-orange-600 dark:text-orange-400 hover:text-orange-500 p-1 rounded hover:bg-orange-500/10 transition-colors">
+                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
                             </button>
                         </div>
                     </div>
@@ -467,18 +577,16 @@
 
             if(supervisorBadge) {
                 supervisorBadge.innerText = "SUPERVISOR: PROCESSING";
-                supervisorBadge.className = "px-2.5 py-0.5 rounded text-[11px] bg-red-100 dark:bg-red-950 text-red-600 dark:text-red-400 border border-red-600 font-mono animate-pulse";
+                supervisorBadge.className = "flex items-center justify-center h-7 px-3 rounded text-[11px] bg-red-100 dark:bg-red-950/80 text-red-600 dark:text-red-400 border border-red-600 font-mono font-bold tracking-wider animate-pulse";
             }
 
             try {
                 const response = await fetch('http://213.233.184.171:8000/api/chat/stream', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         message: text,
-                        history: chatHistory, 
+                        history: chatHistory,
                         session_id: currentSessionId
                     })
                 });
@@ -502,20 +610,16 @@
                         if (line.startsWith('data:')) {
                             const jsonStr = line.replace(/^data:\s*/, '');
                             if (jsonStr === '[DONE]') continue;
-                            
+
                             try {
                                 const parsed = JSON.parse(jsonStr);
                                 if (parsed.type === 'token') {
                                     fullResponseText += parsed.content;
-                                    if (contentSpan) {
-                                        contentSpan.innerText = fullResponseText;
-                                    }
+                                    if (contentSpan) contentSpan.innerText = fullResponseText;
                                 } else if (parsed.type === 'final_result') {
                                     if (parsed.response_content) {
                                         fullResponseText = parsed.response_content;
-                                        if (contentSpan) {
-                                            contentSpan.innerText = fullResponseText;
-                                        }
+                                        if (contentSpan) contentSpan.innerText = fullResponseText;
                                     }
                                 }
                             } catch (e) {}
@@ -536,7 +640,7 @@
             } finally {
                 if(supervisorBadge) {
                     supervisorBadge.innerText = "SUPERVISOR: ACTIVE";
-                    supervisorBadge.className = "px-2.5 py-0.5 rounded text-[11px] bg-orange-100 dark:bg-orange-950 text-orange-700 dark:text-orange-400 border border-orange-500 font-mono";
+                    supervisorBadge.className = "flex items-center justify-center h-7 px-3 rounded text-[11px] bg-orange-100 dark:bg-orange-950/80 text-orange-600 dark:text-orange-400 border border-orange-500/40 font-mono font-bold tracking-wider shadow-[0_0_12px_rgba(255,100,0,0.3)]";
                 }
                 chatBox.scrollTop = chatBox.scrollHeight;
             }
@@ -547,6 +651,7 @@
             return unsafe.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
         }
 
+        // رویداد کلید اینتر روی اینپوت
         document.addEventListener('DOMContentLoaded', () => {
             const inputField = document.getElementById('user-input');
             if (inputField) {
@@ -557,6 +662,92 @@
                 });
             }
         });
+
+        // تابع مدیریت افکت تایپ‌رایتر پویا
+        function runTypewriterInit() {
+            const welcomeEl = document.getElementById('typewriter');
+            if (!welcomeEl) return;
+            const phrases = [
+                "چطور می‌توانم به شما کمک کنم؟"
+            ];
+            let phraseIndex = 0;
+            let charIndex = 0;
+            let isDeleting = false;
+            let typeSpeed = 120;
+
+            function runTypewriter() {
+                const currentEl = document.getElementById('typewriter');
+                if (!currentEl || currentEl.style.display === 'none') return;
+
+                const current = phrases[phraseIndex];
+
+                if (isDeleting) {
+                    currentEl.innerText = current.substring(0, charIndex - 1);
+                    charIndex--;
+                    typeSpeed = 60;
+                } else {
+                    currentEl.innerText = current.substring(0, charIndex + 1);
+                    charIndex++;
+                    typeSpeed = 120;
+                }
+
+                if (!isDeleting && charIndex === current.length) {
+                    isDeleting = true;
+                    typeSpeed = 2500; 
+                } else if (isDeleting && charIndex === 0) {
+                    isDeleting = false;
+                    phraseIndex = (phraseIndex + 1) % phrases.length;
+                    typeSpeed = 500;
+                }
+
+                setTimeout(runTypewriter, typeSpeed);
+            }
+
+            setTimeout(runTypewriter, 800);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            runTypewriterInit();
+        });
+
+        // بخش تله‌متری سیستم
+        async function fetchTelemetry() {
+            try {
+                const response = await fetch('http://213.233.184.171:8000/api/telemetry');
+                if (!response.ok) return;
+                const data = await response.json();
+
+                const gpuVal = document.getElementById('gpu-val');
+                const cpuVal = document.getElementById('cpu-val');
+                const ramVal = document.getElementById('ram-val');
+                const vramVal = document.getElementById('vram-val');
+
+                if (gpuVal) gpuVal.innerText = (data.gpu_val ?? 0) + '%';
+                if (cpuVal) cpuVal.innerText = (data.cpu_val ?? 0) + '%';
+                if (ramVal) ramVal.innerText = (data.ram_val ?? 0) + '%';
+                if (vramVal) vramVal.innerText = (data.vram_val ?? 0) + '%';
+
+                updateCircle('gpu-circle', data.gpu_val, '#f97316');
+                updateCircle('cpu-circle', data.cpu_val, '#f97316');
+                updateCircle('ram-circle', data.ram_val, '#06b6d4');
+                updateCircle('vram-circle', data.vram_val, '#f97316');
+
+            } catch (error) {
+                // خطای شبکه احتمالی در صورت قطع موقت سرور پشت صحنه نادیده گرفته می‌شود تا کنسول شلوغ نشود
+            }
+        }
+
+        function updateCircle(elementId, percent, color) {
+            const el = document.getElementById(elementId);
+            if (el) {
+                const safePercent = percent ?? 0;
+                const degrees = (safePercent / 100) * 360;
+                el.style.background = 'conic-gradient(${color} ${degrees}deg, #27272a ${degrees}deg)';
+            }
+        }
+
+        setInterval(fetchTelemetry, 3000);
+        fetchTelemetry();
     </script>
 </body>
 </html>
