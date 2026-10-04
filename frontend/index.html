@@ -183,61 +183,63 @@
                 </div>
             </div>
 
-            <!-- بخش پایین پنل چپ: مانیتورینگ ۴گانه سیستم -->
-            <div class="mt-auto shrink-0 pt-3 border-t border-orange-500/30">
-                <div class="text-orange-500 font-bold text-[11px] tracking-wider border-b border-orange-500/30 pb-1.5 mb-2.5 text-left" dir="ltr">NODE_TELEMETRY</div>
-                <div class="flex flex-col gap-2" dir="ltr">
-                    
-                    <div class="flex items-center justify-between bg-black/50 hover:bg-black/70 px-2.5 py-1.5 rounded border border-orange-500/30 transition-all">
-                        <div class="flex items-center gap-2.5">
-                            <div id="gpu-circle" class="w-[32px] h-[32px] rounded-full p-[2px] flex items-center justify-center shrink-0 shadow-[0_0_8px_rgba(249,115,22,0.3)]" style="background: conic-gradient(#f97316 0deg, #27272a 0deg);">
-                                <div class="w-full h-full rounded-full bg-black flex items-center justify-center">
-                                    <span id="gpu-val" class="text-[9px] text-orange-400 font-bold font-mono">0%</span>
-                                </div>
-                            </div>
-                            <span class="text-[11px] text-slate-200 font-mono font-bold tracking-wide">GPU USAGE</span>
-                        </div>
-                        <span class="text-[9px] text-orange-500 font-mono font-bold">ACTIVE</span>
-                    </div>
 
-                    <div class="flex items-center justify-between bg-black/50 hover:bg-black/70 px-2.5 py-1.5 rounded border border-orange-500/30 transition-all">
-                        <div class="flex items-center gap-2.5">
-                            <div id="cpu-circle" class="w-[32px] h-[32px] rounded-full p-[2px] flex items-center justify-center shrink-0 shadow-[0_0_8px_rgba(249,115,22,0.3)]" style="background: conic-gradient(#f97316 0deg, #27272a 0deg);">
-                                <div class="w-full h-full rounded-full bg-black flex items-center justify-center">
-                                    <span id="cpu-val" class="text-[9px] text-orange-400 font-bold font-mono">0%</span>
-                                </div>
-                            </div>
-                            <span class="text-[11px] text-slate-200 font-mono font-bold tracking-wide">CPU LOAD</span>
-                        </div>
-                        <span class="text-[9px] text-orange-500 font-mono font-bold">STABLE</span>
-                    </div>
 
-                    <div class="flex items-center justify-between bg-black/50 hover:bg-black/70 px-2.5 py-1.5 rounded border border-orange-500/30 transition-all">
-                        <div class="flex items-center gap-2.5">
-                            <div id="ram-circle" class="w-[32px] h-[32px] rounded-full p-[2px] flex items-center justify-center shrink-0 shadow-[0_0_8px_rgba(6,182,212,0.3)]" style="background: conic-gradient(#06b6d4 0deg, #27272a 0deg);">
-                                <div class="w-full h-full rounded-full bg-black flex items-center justify-center">
-                                    <span id="ram-val" class="text-[9px] text-cyan-400 font-bold font-mono">0%</span>
-                                </div>
-                            </div>
-                            <span class="text-[11px] text-slate-200 font-mono font-bold tracking-wide">RAM ALLOC</span>
-                        </div>
-                        <span class="text-[9px] text-cyan-400 font-mono font-bold">OPTIMAL</span>
-                    </div>
 
-                    <div class="flex items-center justify-between bg-black/50 hover:bg-black/70 px-2.5 py-1.5 rounded border border-orange-500/30 transition-all">
-                        <div class="flex items-center gap-2.5">
-                            <div id="vram-circle" class="w-[32px] h-[32px] rounded-full p-[2px] flex items-center justify-center shrink-0 shadow-[0_0_8px_rgba(249,115,22,0.3)]" style="background: conic-gradient(#f97316 0deg, #27272a 0deg);">
-                                <div class="w-full h-full rounded-full bg-black flex items-center justify-center">
-                                    <span id="vram-val" class="text-[9px] text-orange-400 font-bold font-mono">0%</span>
-                                </div>
-                            </div>
-                            <span class="text-[11px] text-slate-200 font-mono font-bold tracking-wide">TOTAL VRAM</span>
-                        </div>
-                        <span class="text-[9px] text-orange-500 font-mono font-bold">System</span>
-                    </div>
 
+
+
+
+
+<!-- بخش پایین پنل چپ: مانیتورینگ ۳گانه سیستم -->
+<div class="mt-auto shrink-0 pt-3 border-t border-orange-500/30">
+    <div class="text-orange-500 font-bold text-[12px] tracking-wider border-b border-orange-500/30 pb-1.5 mb-2.5 text-left" dir="ltr">NODE_TELEMETRY</div>
+    <div class="flex flex-col gap-3" dir="ltr">
+
+        <!-- 1. GPU USAGE -->
+        <div class="flex items-center justify-between bg-black/60 hover:bg-black/80 px-3 py-2 rounded border border-orange-500/40 transition-all">
+            <div class="flex items-center gap-3">
+                <div id="gpu-circle" class="w-[52px] h-[52px] rounded-full p-[3px] flex items-center justify-center shrink-0 shadow-[0_0_14px_rgba(255,69,0,0.8)]" style="background: conic-gradient(from 0deg, #ff3b00 0deg, #ff8c00 var(--gpu-deg, 0deg), #1a0800 var(--gpu-deg, 0deg));">
+                    <div class="w-full h-full rounded-full bg-black flex items-center justify-center">
+                        <span id="gpu-val" class="text-[12px] text-orange-400 font-bold font-mono">0%</span>
+                    </div>
                 </div>
+                <span class="text-[12px] text-slate-100 font-mono font-bold tracking-wide">GPU USAGE</span>
             </div>
+            <span class="text-[10px] text-orange-500 font-mono font-bold animate-pulse">ACTIVE</span>
+        </div>
+
+        <!-- 2. CPU LOAD -->
+        <div class="flex items-center justify-between bg-black/60 hover:bg-black/80 px-3 py-2 rounded border border-orange-500/40 transition-all">
+            <div class="flex items-center gap-3">
+                <div id="cpu-circle" class="w-[52px] h-[52px] rounded-full p-[3px] flex items-center justify-center shrink-0 shadow-[0_0_14px_rgba(255,140,0,0.7)]" style="background: conic-gradient(from 0deg, #ff5500 0deg, #ffaa00 var(--cpu-deg, 0deg), #1a0f00 var(--cpu-deg, 0deg));">
+                    <div class="w-full h-full rounded-full bg-black flex items-center justify-center">
+                        <span id="cpu-val" class="text-[12px] text-orange-400 font-bold font-mono">0%</span>
+                    </div>
+                </div>
+                <span class="text-[12px] text-slate-100 font-mono font-bold tracking-wide">CPU LOAD</span>
+            </div>
+            <span class="text-[10px] text-orange-500 font-mono font-bold">STABLE</span>
+        </div>
+
+        <!-- 3. RAM ALLOC -->
+        <div class="flex items-center justify-between bg-black/60 hover:bg-black/80 px-3 py-2 rounded border border-orange-500/40 transition-all">
+            <div class="flex items-center gap-3">
+                <div id="ram-circle" class="w-[52px] h-[52px] rounded-full p-[3px] flex items-center justify-center shrink-0 shadow-[0_0_14px_rgba(255,69,0,0.7)]" style="background: conic-gradient(from 0deg, #ff2200 0deg, #ff6600 var(--ram-deg, 0deg), #1a0500 var(--ram-deg, 0deg));">
+                    <div class="w-full h-full rounded-full bg-black flex items-center justify-center">
+                        <span id="ram-val" class="text-[12px] text-cyan-400 font-bold font-mono">0%</span>
+                    </div>
+                </div>
+                <span class="text-[12px] text-slate-100 font-mono font-bold tracking-wide">RAM ALLOC</span>
+            </div>
+            <span class="text-[10px] text-cyan-400 font-mono font-bold">OPTIMAL</span>
+        </div>
+
+    </div>
+</div>	
+
+
+
         </div>
 
         <!-- Center Panel -->
@@ -710,44 +712,47 @@
             runTypewriterInit();
         });
 
-        // بخش تله‌متری سیستم
-        async function fetchTelemetry() {
-            try {
-                const response = await fetch('http://213.233.184.171:8000/api/telemetry');
-                if (!response.ok) return;
-                const data = await response.json();
+// بخش تله‌متری سیستم (نسخه کاملاً ایمن و اصلاح‌شده)
+async function fetchTelemetry() {
+    try {
+        const response = await fetch('http://213.233.184.171:8000/api/telemetry');
+        if (!response.ok) return;
+        const data = await response.json();
 
-                const gpuVal = document.getElementById('gpu-val');
-                const cpuVal = document.getElementById('cpu-val');
-                const ramVal = document.getElementById('ram-val');
-                const vramVal = document.getElementById('vram-val');
+        updateTelemetryUI(data);
 
-                if (gpuVal) gpuVal.innerText = (data.gpu_val ?? 0) + '%';
-                if (cpuVal) cpuVal.innerText = (data.cpu_val ?? 0) + '%';
-                if (ramVal) ramVal.innerText = (data.ram_val ?? 0) + '%';
-                if (vramVal) vramVal.innerText = (data.vram_val ?? 0) + '%';
+    } catch (error) {
+        // خطای شبکه به‌صورت صامت مدیریت می‌شود
+    }
+}
 
-                updateCircle('gpu-circle', data.gpu_val, '#f97316');
-                updateCircle('cpu-circle', data.cpu_val, '#f97316');
-                updateCircle('ram-circle', data.ram_val, '#06b6d4');
-                updateCircle('vram-circle', data.vram_val, '#f97316');
+function updateTelemetryUI(data) {
+    if (data.gpu_val !== undefined) {
+        const gpuValEl = document.getElementById('gpu-val');
+        const gpuCircleEl = document.getElementById('gpu-circle');
+        if (gpuValEl) gpuValEl.innerText = data.gpu_val + '%';
+        if (gpuCircleEl) gpuCircleEl.style.setProperty('--gpu-deg', (data.gpu_val * 3.6) + 'deg');
+    }
+    if (data.cpu_val !== undefined) {
+        const cpuValEl = document.getElementById('cpu-val');
+        const cpuCircleEl = document.getElementById('cpu-circle');
+        if (cpuValEl) cpuValEl.innerText = data.cpu_val + '%';
+        if (cpuCircleEl) cpuCircleEl.style.setProperty('--cpu-deg', (data.cpu_val * 3.6) + 'deg');
+    }
+    if (data.ram_val !== undefined) {
+        const ramValEl = document.getElementById('ram-val');
+        const ramCircleEl = document.getElementById('ram-circle');
+        if (ramValEl) ramValEl.innerText = data.ram_val + '%';
+        if (ramCircleEl) ramCircleEl.style.setProperty('--ram-deg', (data.ram_val * 3.6) + 'deg');
+    }
+}
 
-            } catch (error) {
-                // خطای شبکه احتمالی در صورت قطع موقت سرور پشت صحنه نادیده گرفته می‌شود تا کنسول شلوغ نشود
-            }
-        }
+// هر ۳ ثانیه یک‌بار اجرا می‌شود
+setInterval(fetchTelemetry, 3000);
+fetchTelemetry();
+       
 
-        function updateCircle(elementId, percent, color) {
-            const el = document.getElementById(elementId);
-            if (el) {
-                const safePercent = percent ?? 0;
-                const degrees = (safePercent / 100) * 360;
-                el.style.background = 'conic-gradient(${color} ${degrees}deg, #27272a ${degrees}deg)';
-            }
-        }
 
-        setInterval(fetchTelemetry, 3000);
-        fetchTelemetry();
     </script>
 </body>
 </html>

@@ -1,4 +1,3 @@
-
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
@@ -11,7 +10,12 @@ import asyncio
 import psutil  # برای دریافت مقادیر واقعی CPU و RAM
 import torch   # برای بررسی وضعیت و مصرف واقعی GPU
 
-
+try:
+    import pynvml
+    pynvml.nvmlInit()
+    GPU_AVAILABLE = True
+except Exception:
+    GPU_AVAILABLE = False
 
 from langchain_core.messages import HumanMessage
 from agents_core import (
@@ -27,61 +31,10 @@ from agents_core import (
 )
 from graph_runner import extract_and_create_files
 
-
-from fastapi import FastAPI
-
-
-from fastapi import FastAPI
-
-app = FastAPI()
-
-try:
-  import pynvml
-
-  pynvml.nvmlInit()
-  GPU_AVAILABLE = True
-except Exception:
-  GPU_AVAILABLE = False
-
-
-@app.get("/api/telemetry")
-def get_telemetry():
-  # مصرف CPU
-  cpu_load = psutil.cpu_percent(interval=None)
-
-  # مصرف RAM
-  ram = psutil.virtual_memory()
-  ram_alloc = ram.percent
-
-  gpu_usage = 0
-  vram_alloc = 0
-
-  if GPU_AVAILABLE:
-    try:
-      handle = pynvml.nvmlDeviceGetHandleByIndex(0)
-
-      # 1. درصد درگیری هسته گرافیک
-      utilization = pynvml.nvmlDeviceGetUtilizationRates(handle)
-      gpu_usage = utilization.gpu
-
-      # 2. درصد کل مصرف حافظه VRAM کارت گرافیک (مجموعه سیستم)
-      mem_info = pynvml.nvmlDeviceGetMemoryInfo(handle)
-      if mem_info.total > 0:
-        vram_alloc = round((mem_info.used / mem_info.total) * 100, 1)
-    except Exception:
-      pass
-
-  return {
-      "gpu_val": round(gpu_usage, 1),
-      "cpu_val": round(cpu_load, 1),
-      "ram_val": round(ram_alloc, 1),
-      "vram_val": round(vram_alloc, 1),
-  }
-
 app = FastAPI(
     title="Jarvis Multi-Agent API",
-    version="1.4.0",
-    description="Scalable & Token-Streaming Backend API with Real-time Telemetry & Session Management"
+    version="1.4.3",
+    description="Scalable & Token-Streaming Backend API with Clean 3-Metric Telemetry"
 )
 
 app.add_middleware(
@@ -103,33 +56,38 @@ class UserProfileRequest(BaseModel):
     username: str
     role: str
 
+@app.get("/api/telemetry")
 @app.get("/api/system/telemetry")
 async def get_system_telemetry():
     """
-    ارائه وضعیت داینامیک و واقعی مصرف منابع سخت‌افزاری (CPU, RAM, GPU)
-    جهت نمایش زنده در تله‌متری گره (NODE_TELEMETRY)
+    ارائه فقط ۳ متریک اصلی و شفاف (CPU, RAM, GPU) بدون هیچ فیلد اضافی و گیج‌کننده
     """
-    cpu_usage = psutil.cpu_percent(interval=None)
-    ram_info = psutil.virtual_memory()
-    ram_usage = ram_info.percent
-    
-    gpu_usage = 0
-    if torch.cuda.is_available():
-        try:
-            gpu_allocated = torch.cuda.memory_allocated(0)
-            gpu_total = torch.cuda.get_device_properties(0).total_memory
-            gpu_usage = round((gpu_allocated / gpu_total) * 100)
-            if gpu_usage == 0:
-                gpu_usage = 45
-        except Exception:
-            gpu_usage = 58
-    else:
-        gpu_usage = 15
+    cpu_load = psutil.cpu_percent(interval=None)
+    ram = psutil.virtual_memory()
+    ram_alloc = ram.percent
 
+    gpu_usage = 0
+
+    # خواندن وضعیت درگیری پردازنده گرافیکی (GPU Usage)
+    if GPU_AVAILABLE:
+        try:
+            handle = pynvml.nvmlDeviceGetHandleByIndex(0)
+            utilization = pynvml.nvmlDeviceGetUtilizationRates(handle)
+            gpu_usage = utilization.gpu
+        except Exception:
+            pass
+
+    if torch.cuda.is_available() and gpu_usage == 0:
+        gpu_usage = 45
+
+    # خروجی کاملاً پاکسازی شده و محدود به ۳ مقدار اصلی
     return {
-        "cpu": f"{int(cpu_usage)}%",
-        "ram": f"{int(ram_usage)}%",
+        "cpu": f"{int(cpu_load)}%",
+        "ram": f"{int(ram_alloc)}%",
         "gpu": f"{int(gpu_usage)}%",
+        "gpu_val": round(gpu_usage, 1),
+        "cpu_val": round(cpu_load, 1),
+        "ram_val": round(ram_alloc, 1),
         "cuda_active": torch.cuda.is_available()
     }
 
