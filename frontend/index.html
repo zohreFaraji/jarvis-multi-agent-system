@@ -23,31 +23,55 @@
             color: #1e293b !important;
         }
         html:not(.dark) .cyber-card {
-            background-color: #ffffff !important;
+            background-color: #F2F3F4 !important;
             color: #0f172a !important;
             border-color: rgba(234, 88, 12, 0.25) !important;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
         }
+        
+        /* اعمال رنگ پس‌زمینه #050912 در لایت‌مود برای بخش‌های درخواستی */
+        html:not(.dark) #panel-left,
+        html:not(.dark) #panel-right,
+        html:not(.dark) .telemetry-card,
+        html:not(.dark) .neural-link-box,
         html:not(.dark) #box-vcommands,
         html:not(.dark) .bg-black\/40,
         html:not(.dark) .bg-black\/50,
         html:not(.dark) .bg-black\/60 {
-            background-color: #f8fafc !important;
-            color: #334155 !important;
-            border-color: rgba(234, 88, 12, 0.2) !important;
-        }
-        html:not(.dark) .bg-black\/80,
-        html:not(.dark) .bg-black\/90 {
-            background-color: #ffffff !important;
-            color: #1e293b !important;
+            background-color: #050912 !important;
+            color: #f8fafc !important;
             border-color: rgba(234, 88, 12, 0.3) !important;
         }
-        html:not(.dark) #chat-box {
-            background-color: #fafbfc !important;
-            color: #1e293b !important;
+
+        html:not(.dark) #panel-left span,
+        html:not(.dark) #panel-right span,
+        html:not(.dark) #panel-left div,
+        html:not(.dark) #panel-right div,
+        html:not(.dark) .telemetry-card span {
+            color: #f8fafc !important;
+        }
+
+        html:not(.dark) .bg-black\/80,
+        html:not(.dark) .bg-black\/90 {
+            background-color: #050912 !important;
+            color: #f8fafc !important;
+            border-color: rgba(234, 88, 12, 0.4) !important;
+        }
+        
+        html:not(.dark) .input-container-custom {
+            background-color: #050912 !important;
+            border-color: rgba(234, 88, 12, 0.5) !important;
         }
         html:not(.dark) input#user-input {
-            color: #0f172a !important;
+            color: #ffffff !important;
+        }
+        html:not(.dark) input#user-input::placeholder {
+            color: #94a3b8 !important;
+        }
+
+        html:not(.dark) #chat-box {
+            background-color: #F2F3F4 !important;
+            color: #1e293b !important;
         }
 
         #chat-box {
@@ -67,9 +91,6 @@
             transform: scale(0.42);
             margin-top: -15px !important;
             margin-bottom: -15px !important;
-        }
-        .chat-expanded #chat-box {
-           	
         }
 
         .fire-eye-core {
@@ -143,108 +164,90 @@
         </div>
     </header>
 
-    <!-- Main Grid Layout -->
-    <main class="grid grid-cols-1 lg:grid-cols-12 gap-2 my-2 flex-grow overflow-hidden">
+    <!-- Main Grid Layout: پنل تاریخچه در سمت راست، ایجنت‌ها در سمت چپ، چت در مرکز -->
+    <main class="grid grid-cols-1 lg:grid-cols-12 gap-3 my-2 flex-grow overflow-hidden">
 
-        <!-- پنل سمت راست: منوهای هوشمند و تاریخچه -->
-        <div id="panel-left" class="lg:col-span-3 cyber-card rounded p-2.5 flex flex-col justify-between text-[11px] space-y-2 transition-colors duration-300 overflow-hidden">
-            <div class="space-y-2 overflow-y-auto max-h-[calc(100vh-170px)] pr-1">
-                <button onclick="startNewChat()" class="w-full bg-orange-600 hover:bg-orange-500 text-white font-bold py-2 px-3 rounded-lg flex items-center justify-center gap-2 transition-all shadow-md cursor-pointer border border-orange-400/30">
-                    <span>➕</span>
-                    <span class="text-xs">گفتگوی جدید</span>
+        <!-- پنل سمت راست (تاریخچه گفتگوها، دکمه جدید و ابزارها - col-span-3) -->
+        <div id="panel-right" class="order-1 lg:order-1 lg:col-span-3 cyber-card rounded-xl p-3 flex flex-col justify-between text-[11px] space-y-3 transition-colors duration-300 bg-black/60 border border-orange-500/20 backdrop-blur-md relative overflow-visible z-20">
+            <div class="space-y-3 overflow-y-auto max-h-[calc(100vh-140px)] pr-1 custom-scrollbar overflow-x-visible">
+                
+                <!-- دکمه گفتگوی جدید -->
+                <button onclick="startNewChat()" class="w-full bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-400 text-white font-bold py-2.5 px-3 rounded-xl flex items-center justify-between shadow-lg shadow-orange-600/20 transition-all duration-200 group cursor-pointer">
+                    <span class="text-xs font-sans">گفتگوی جدید</span>
+                    <span class="text-base group-hover:rotate-90 transition-transform duration-200">➕</span>   
                 </button>
 
+                <!-- منوهای هوشمند و ابزارها -->
                 <div>
-                    <div class="text-orange-500 font-bold tracking-wider border-b border-orange-500/30 pb-1 mb-2 text-right">
-                        منوهای هوشمند و ابزارها
-                    </div>
                     <div class="space-y-1.5 font-sans text-[11px]">
-                        <div class="flex items-center justify-between bg-black/40 hover:bg-black/60 px-2.5 py-1.5 rounded border border-orange-500/25 cursor-pointer transition-all">
+                        <div onclick="openFeatureModal('لیست مدل‌ها و انتخاب موتورهای هوش مصنوعی')" class="flex items-center justify-between bg-black/40 hover:bg-orange-500/10 px-2.5 py-2 rounded-lg border border-orange-500/25 cursor-pointer transition-all">
                             <span class="text-slate-200 font-medium text-right">لیست مدل‌ها</span>
-                            <svg class="w-3.5 h-3.5 text-orange-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            <span class="text-xs">🎛️</span>
                         </div>
-                        <div class="bg-black/30 p-1.5 rounded border border-orange-500/15 space-y-1">
-                            <div class="text-[10px] text-orange-400 font-mono text-right px-1">سرویس‌های اصلی</div>
-                            <div class="grid grid-cols-2 gap-1">
-                                <button class="bg-black/50 hover:bg-orange-600/20 text-slate-300 hover:text-white px-2 py-1 rounded text-right transition-colors border border-orange-500/15">تصویر 🖼️</button>
-                                <button class="bg-black/50 hover:bg-orange-600/20 text-slate-300 hover:text-white px-2 py-1 rounded text-right transition-colors border border-orange-500/15">ویدیو 🎬</button>
-                            </div>
+                        <div onclick="openFeatureModal('ماژول تولید تصویر هوش مصنوعی')" class="flex items-center justify-between bg-black/40 hover:bg-orange-500/10 px-2.5 py-2 rounded-lg border border-orange-500/25 cursor-pointer transition-all">
+                            <span class="text-slate-200 font-medium text-right">تولید تصویر</span>
+                            <span class="text-xs">🎨</span>
                         </div>
-                    </div>
-                </div>
-
-                <div class="pt-2 border-t border-orange-500/20">
-                    <div class="text-orange-600 dark:text-orange-500 font-bold pb-1 mb-1 text-right">تاریخچه گفتگوها</div>
-                    <div id="dynamic-history-container" class="space-y-1.5 font-mono text-[10px] text-slate-700 dark:text-slate-300 text-right overflow-y-auto max-h-[100px]">
-                        <div class="bg-slate-100 dark:bg-black/50 p-1.5 rounded border border-orange-500/25 text-slate-400 italic text-right">
-                            هنوز گفتگویی ثبت نشده است...
+                        <div onclick="openFeatureModal('ماژول تولید ویدیو هوش مصنوعی')" class="flex items-center justify-between bg-black/40 hover:bg-orange-500/10 px-2.5 py-2 rounded-lg border border-orange-500/25 cursor-pointer transition-all">
+                            <span class="text-slate-200 font-medium text-right">تولید ویدیو</span>
+                            <span class="text-xs">🎬</span>
+                        </div>
+                        <div onclick="openFeatureModal('بخش دستیارهای تخصصی سیستم')" class="flex items-center justify-between bg-black/40 hover:bg-orange-500/10 px-2.5 py-2 rounded-lg border border-orange-500/25 cursor-pointer transition-all">
+                            <span class="text-slate-200 font-medium text-right">دستیارها</span>
+                            <span class="text-xs">🤖</span>
                         </div>
                     </div>
                 </div>
-            </div>
 
-
-
-
-
-
-
-
-
-<!-- بخش پایین پنل چپ: مانیتورینگ ۳گانه سیستم -->
-<div class="mt-auto shrink-0 pt-3 border-t border-orange-500/30">
-    <div class="text-orange-500 font-bold text-[12px] tracking-wider border-b border-orange-500/30 pb-1.5 mb-2.5 text-left" dir="ltr">NODE_TELEMETRY</div>
-    <div class="flex flex-col gap-3" dir="ltr">
-
-        <!-- 1. GPU USAGE -->
-        <div class="flex items-center justify-between bg-black/60 hover:bg-black/80 px-3 py-2 rounded border border-orange-500/40 transition-all">
-            <div class="flex items-center gap-3">
-                <div id="gpu-circle" class="w-[52px] h-[52px] rounded-full p-[3px] flex items-center justify-center shrink-0 shadow-[0_0_14px_rgba(255,69,0,0.8)]" style="background: conic-gradient(from 0deg, #ff3b00 0deg, #ff8c00 var(--gpu-deg, 0deg), #1a0800 var(--gpu-deg, 0deg));">
-                    <div class="w-full h-full rounded-full bg-black flex items-center justify-center">
-                        <span id="gpu-val" class="text-[12px] text-orange-400 font-bold font-mono">0%</span>
+                <!-- تاریخچه گفتگوها (با فونت درشت‌تر و خوانا) -->
+                <div class="pt-2 border-t border-orange-500/25">
+                    <div class="text-orange-400 font-bold pb-1.5 mb-2 text-right flex justify-between items-center text-xs tracking-wide">
+                        <span>تاریخچه گفتگوها</span>
+                    </div>
+                    <div id="dynamic-history-container" class="space-y-1.5 font-sans text-[11px] text-slate-300 max-h-72 text-right overflow-y-auto pl-1 pr-1 pb-2 overflow-x-visible rounded-xl border border-orange-500/25 bg-black/20">
+                        <!-- بارگذاری داینامیک از جاوااسکریپت -->
                     </div>
                 </div>
-                <span class="text-[12px] text-slate-100 font-mono font-bold tracking-wide">GPU USAGE</span>
-            </div>
-            <span class="text-[10px] text-orange-500 font-mono font-bold animate-pulse">ACTIVE</span>
-        </div>
 
-        <!-- 2. CPU LOAD -->
-        <div class="flex items-center justify-between bg-black/60 hover:bg-black/80 px-3 py-2 rounded border border-orange-500/40 transition-all">
-            <div class="flex items-center gap-3">
-                <div id="cpu-circle" class="w-[52px] h-[52px] rounded-full p-[3px] flex items-center justify-center shrink-0 shadow-[0_0_14px_rgba(255,140,0,0.7)]" style="background: conic-gradient(from 0deg, #ff5500 0deg, #ffaa00 var(--cpu-deg, 0deg), #1a0f00 var(--cpu-deg, 0deg));">
-                    <div class="w-full h-full rounded-full bg-black flex items-center justify-center">
-                        <span id="cpu-val" class="text-[12px] text-orange-400 font-bold font-mono">0%</span>
+            </div>
+
+            <!-- بخش پایینی: منوی کشویی حساب کاربری -->
+            <div class="mt-4 pt-3 border-t border-orange-500/20 relative">
+                <div id="user-dropdown-menu" class="hidden absolute bottom-full mb-2 left-0 right-0 cyber-card bg-zinc-900/95 border border-orange-500/40 rounded-xl p-1.5 shadow-2xl backdrop-blur-md space-y-1 z-50 text-right">
+                    <button onclick="openFeatureModal('بخش خرید بسته و افزایش اعتبار')" class="w-full text-right px-3 py-2 hover:bg-orange-600/20 text-slate-200 hover:text-white rounded-lg flex items-center justify-between transition-all">
+                        <span>خرید بسته</span><span>📦</span>
+                    </button>
+                    <button onclick="openFeatureModal('تنظیمات شخصی‌سازی حساب')" class="w-full text-right px-3 py-2 hover:bg-orange-600/20 text-slate-200 hover:text-white rounded-lg flex items-center justify-between transition-all">
+                        <span>شخصی‌‌سازی</span><span>⚙️</span>
+                    </button>
+                    <button onclick="openFeatureModal('مرکز پشتیبانی و تیکت‌ها')" class="w-full text-right px-3 py-2 hover:bg-orange-600/20 text-slate-200 hover:text-white rounded-lg flex items-center justify-between transition-all">
+                        <span>پشتیبانی</span><span>🎧</span>
+                    </button>
+                    <button onclick="openFeatureModal('تنظیمات سیستم')" class="w-full text-right px-3 py-2 hover:bg-orange-600/20 text-slate-200 hover:text-white rounded-lg flex items-center justify-between transition-all">
+                        <span>تنظیمات</span><span>🔧</span>
+                    </button>
+                    <div class="border-t border-orange-500/20 pt-1">
+                        <button onclick="alert('از حساب کاربری خارج شدید.')" class="w-full text-right px-3 py-2 hover:bg-red-600/20 text-red-400 hover:text-red-300 rounded-lg flex items-center justify-between transition-all">
+                            <span>خروج</span><span>🚪</span>
+                        </button>
                     </div>
                 </div>
-                <span class="text-[12px] text-slate-100 font-mono font-bold tracking-wide">CPU LOAD</span>
-            </div>
-            <span class="text-[10px] text-orange-500 font-mono font-bold">STABLE</span>
-        </div>
 
-        <!-- 3. RAM ALLOC -->
-        <div class="flex items-center justify-between bg-black/60 hover:bg-black/80 px-3 py-2 rounded border border-orange-500/40 transition-all">
-            <div class="flex items-center gap-3">
-                <div id="ram-circle" class="w-[52px] h-[52px] rounded-full p-[3px] flex items-center justify-center shrink-0 shadow-[0_0_14px_rgba(255,69,0,0.7)]" style="background: conic-gradient(from 0deg, #ff2200 0deg, #ff6600 var(--ram-deg, 0deg), #1a0500 var(--ram-deg, 0deg));">
-                    <div class="w-full h-full rounded-full bg-black flex items-center justify-center">
-                        <span id="ram-val" class="text-[12px] text-cyan-400 font-bold font-mono">0%</span>
+                <div id="user-profile-section" class="flex items-center justify-between bg-black/40 hover:bg-black/60 p-2 rounded-xl border border-orange-500/30 cursor-pointer transition-all" onclick="toggleUserDropdown(event)">
+                    <div class="flex items-center space-x-2 space-x-reverse">
+                        <div class="w-7 h-7 rounded-full bg-orange-600/30 border border-orange-500 flex items-center justify-center text-orange-400 font-bold text-xs">👤</div>
+                        <div class="text-right">
+                            <div class="text-slate-200 font-bold text-[11px] font-mono tracking-wider" dir="ltr">hsp_vesper</div>
+                            <div class="text-[9px] text-orange-400 font-mono">حساب کاربری</div>
+                        </div>
                     </div>
+                    <svg class="w-3.5 h-3.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/></svg>
                 </div>
-                <span class="text-[12px] text-slate-100 font-mono font-bold tracking-wide">RAM ALLOC</span>
             </div>
-            <span class="text-[10px] text-cyan-400 font-mono font-bold">OPTIMAL</span>
         </div>
 
-    </div>
-</div>	
-
-
-
-        </div>
-
-        <!-- Center Panel -->
-        <div id="panel-center" class="lg:col-span-6 cyber-card rounded p-3 flex flex-col items-center justify-between relative overflow-hidden transition-colors duration-300">
-
+        <!-- Center Panel (چت و هسته مرکزی - col-span-6) -->
+        <div id="panel-center" class="order-3 lg:order-2 lg:col-span-6 cyber-card rounded p-3 flex flex-col items-center justify-between relative overflow-hidden transition-colors duration-300">
             <div class="reactor-core-container mt-1 mb-auto">
                 <div class="reactor-ring ring-outer"></div>
                 <div class="reactor-ring ring-middle"></div>
@@ -263,15 +266,23 @@
             </div>
 
             <!-- Chat Box -->
-            <div id="chat-box" class="w-full h-60 bg-slate-50 dark:bg-black/80  bg-slate-800/40 border  border-orange-500/30 rounded rounded-2xl p-3 overflow-y-auto text-sm space-y-3 text-slate-800 leading-relaxed" >
-                <div id="typewriter" class="text-orange-500 dark:text-orange-400 font-mono text-base font-semibold tracking-wide flex items-center justify-center h-full drop-shadow-[0_0_10px_rgba(255,120,0,0.8)] text-xl "></div>
+            <div id="chat-box" class="w-full h-60 bg-slate-50 dark:bg-black/80 bg-slate-800/40 border border-orange-500/30 rounded rounded-2xl p-3 overflow-y-auto text-sm space-y-3 text-slate-800 leading-relaxed box-border">
+                <div id="typewriter" class="text-orange-500 dark:text-orange-400 font-mono text-base font-semibold tracking-wide flex items-center justify-center h-full drop-shadow-[0_0_10px_rgba(255,120,0,0.8)] text-xl"></div>
             </div>
 
             <!-- Input Bar -->
             <div class="mt-1 w-full flex flex-col gap-1">
-                <div class="relative flex items-center justify-between bg-white dark:bg-black/90 border border-orange-500/50 rounded-full px-4 py-2 shadow-inner transition-colors">
+                <div class="input-container-custom relative flex items-center justify-between bg-white dark:bg-black/90 border border-orange-500/50 rounded-full px-4 py-2 shadow-inner transition-colors">
+                    <div class="flex items-center gap-2">
+                        <button onclick="togglePlusMenu(event)" id="plus-btn" class="w-7 h-7 rounded-full bg-orange-600/20 hover:bg-orange-600/40 text-orange-400 flex items-center justify-center transition-transform active:scale-95 cursor-pointer font-bold text-base">
+                            +
+                        </button>
+                        <button onclick="openFeatureModal('ضبط صوت و دستورات صوتی')" class="w-7 h-7 rounded-full bg-orange-600/20 hover:bg-orange-600/40 text-orange-400 flex items-center justify-center transition-transform active:scale-95 cursor-pointer text-xs">
+                            🎤
+                        </button>
+                    </div>
                     <input type="text" id="user-input" placeholder="سوال خود را بپرسید..." class="flex-grow bg-transparent text-slate-900 dark:text-white text-sm font-sans focus:outline-none px-2 text-right">
-                    <button onclick="sendToJarvis()" class="bg-orange-600 hover:bg-orange-500 text-white w-8 h-8 rounded-full flex items-center justify-center transition-colors flex-shrink-0 cursor-pointer">
+                    <button onclick="sendToJarvis()" class="bg-orange-600 hover:bg-orange-500 text-white w-8 h-8 rounded-full flex items-center justify-center transition-colors flex-shrink-0 cursor-pointer shadow-md shadow-orange-600/30">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                         </svg>
@@ -279,480 +290,826 @@
                 </div>
             </div>
         </div>
-<!-- Right Panel: ایجنت‌های فعال -->
-<div id="panel-right" class="lg:col-span-3 cyber-card rounded p-3 flex flex-col justify-between text-[11px] space-y-2 transition-colors duration-300 overflow-hidden">
 
-    <!-- ۱. بخش بالای پنل: لیست ایجنت‌های فعال -->
-    <div class="flex flex-col overflow-hidden">
-        <div class="text-orange-500 font-bold tracking-wider border-b border-orange-500/30 pb-1 mb-2 text-left">
-            ACTIVE AGENTS
-        </div>
-        <div class="space-y-1.5 font-mono text-[10px] overflow-y-auto max-h-[220px]">
-            <!-- ایجنت ۱ -->
-            <div class="flex items-center justify-between bg-black/40 hover:bg-black/60 px-2 py-1.5 rounded border border-orange-500/20 hover:border-orange-500/50">
-                <div><span class="text-green-400 font-bold tracking-wider text-[9px]">ONLINE</span></div>
-                <div class="flex items-center space-x-2.5 space-x-reverse">
-                    <span class="text-slate-200 tracking-wide font-semibold">CodeArchitect</span>
-                    <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.8)] flex-shrink-0"></span>
+        <!-- پنل سمت چپ (ایجنت‌ها و مانیتورینگ سیستم - col-span-3) -->
+        <div id="panel-left" class="order-2 lg:order-3 lg:col-span-3 cyber-card rounded p-3 flex flex-col justify-between text-[11px] space-y-2 transition-colors duration-300 overflow-hidden bg-black/60 border border-orange-500/20">
+            <div class="flex flex-col overflow-hidden space-y-2">
+                <div class="text-orange-500 font-bold tracking-wider border-b border-orange-500/30 pb-1 mb-2 text-left">
+                    ACTIVE AGENTS
+                </div>
+                <div class="space-y-1.5 font-mono text-[10px] overflow-y-auto max-h-[180px]">
+                    <div class="flex items-center justify-between bg-black/40 px-2 py-1.5 rounded border border-orange-500/20">
+                        <div><span class="text-green-400 font-bold tracking-wider text-[9px]">ONLINE</span></div>
+                        <div class="flex items-center space-x-2.5 space-x-reverse">
+                            <span class="text-slate-200 tracking-wide font-semibold">CodeArchitect</span>
+                            <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.8)] flex-shrink-0"></span>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between bg-black/40 px-2 py-1.5 rounded border border-orange-500/20">
+                        <div><span class="text-green-400 font-bold tracking-wider text-[9px]">ONLINE</span></div>
+                        <div class="flex items-center space-x-2.5 space-x-reverse">
+                            <span class="text-slate-200 tracking-wide font-semibold">BookAdvisor</span>
+                            <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.8)] flex-shrink-0"></span>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between bg-black/40 px-2 py-1.5 rounded border border-orange-500/20">
+                        <div><span class="text-green-400 font-bold tracking-wider text-[9px]">ONLINE</span></div>
+                        <div class="flex items-center space-x-2.5 space-x-reverse">
+                            <span class="text-slate-200 tracking-wide font-semibold">DataMarket</span>
+                            <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.8)] flex-shrink-0"></span>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between bg-black/40 px-2 py-1.5 rounded border border-orange-500/20">
+                        <div><span class="text-green-400 font-bold tracking-wider text-[9px]">ONLINE</span></div>
+                        <div class="flex items-center space-x-2.5 space-x-reverse">
+                            <span class="text-slate-200 tracking-wide font-semibold">MarketPulse</span>
+                            <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.8)] flex-shrink-0"></span>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between bg-black/40 px-2 py-1.5 rounded border border-orange-500/20">
+                        <div><span class="text-green-400 font-bold tracking-wider text-[9px]">ONLINE</span></div>
+                        <div class="flex items-center space-x-2.5 space-x-reverse">
+                            <span class="text-slate-200 tracking-wide font-semibold">TribeSupervisor</span>
+                            <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.8)] flex-shrink-0"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- بخش تله‌‌متری سیستم -->
+                <div class="pt-2 pb-2 border-t border-orange-500/20 space-y-2">
+                    <div class="text-orange-400 font-bold text-left tracking-wider text-[10px] font-mono" dir="ltr">NODE_TELEMETRY</div>
+                    <div class="flex flex-col gap-2" dir="ltr">
+                        <div class="telemetry-card flex items-center justify-between bg-black/60 px-2.5 py-1.5 rounded-lg border border-orange-500/40">
+                            <div class="flex items-center gap-2.5">
+                                <div id="gpu-circle" class="w-10 h-10 rounded-full p-[2px] flex items-center justify-center shrink-0 shadow-[0_0_10px_rgba(255,69,0,0.6)]">
+                                    <div class="w-full h-full rounded-full bg-black flex items-center justify-center">
+                                        <span id="gpu-val" class="text-[10px] text-orange-400 font-bold font-mono">0%</span>
+                                    </div>
+                                </div>
+                                <span class="text-[11px] text-slate-100 font-mono font-bold tracking-wide">GPU USAGE</span>
+                            </div>
+                            <span class="text-[9px] text-orange-500 font-mono font-bold animate-pulse">ACTIVE</span>
+                        </div>
+
+                        <div class="telemetry-card flex items-center justify-between bg-black/60 px-2.5 py-1.5 rounded-lg border border-orange-500/40">
+                            <div class="flex items-center gap-2.5">
+                                <div id="cpu-circle" class="w-10 h-10 rounded-full p-[2px] flex items-center justify-center shrink-0 shadow-[0_0_10px_rgba(255,140,0,0.5)]">
+                                    <div class="w-full h-full rounded-full bg-black flex items-center justify-center">
+                                        <span id="cpu-val" class="text-[10px] text-orange-400 font-bold font-mono">0%</span>
+                                    </div>
+                                </div>
+                                <span class="text-[11px] text-slate-100 font-mono font-bold tracking-wide">CPU LOAD</span>
+                            </div>
+                            <span class="text-[9px] text-orange-500 font-mono font-bold">STABLE</span>
+                        </div>
+
+                        <div class="telemetry-card flex items-center justify-between bg-black/60 px-2.5 py-1.5 rounded-lg border border-orange-500/40">
+                            <div class="flex items-center gap-2.5">
+                                <div id="ram-circle" class="w-10 h-10 rounded-full p-[2px] flex items-center justify-center shrink-0 shadow-[0_0_10px_rgba(255,69,0,0.5)]">
+                                    <div class="w-full h-full rounded-full bg-black flex items-center justify-center">
+                                        <span id="ram-val" class="text-[10px] text-cyan-400 font-bold font-mono">0%</span>
+                                    </div>
+                                </div>
+                                <span class="text-[11px] text-slate-100 font-mono font-bold tracking-wide">RAM ALLOC</span>
+                            </div>
+                            <span class="text-[9px] text-cyan-400 font-mono font-bold">OPTIMAL</span>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <!-- ایجنت ۲ -->
-            <div class="flex items-center justify-between bg-black/40 hover:bg-black/60 px-2 py-1.5 rounded border border-orange-500/20 hover:border-orange-500/50">
-                <div><span class="text-green-400 font-bold tracking-wider text-[9px]">ONLINE</span></div>
-                <div class="flex items-center space-x-2.5 space-x-reverse">
-                    <span class="text-slate-200 tracking-wide font-semibold">BookAdvisor</span>
-                    <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.8)] flex-shrink-0"></span>
+
+            <!-- بخش پایین پنل: باکس نئونی و پروتکل -->
+            <div class="space-y-2">
+                <div class="neural-link-box p-2.5 bg-black/60 border border-orange-500/40 rounded-lg shadow-[0_0_15px_rgba(255,120,0,0.15)] backdrop-blur-sm space-y-1.5 w-full box-border">
+                    <div class="flex items-center justify-between text-[10px] font-mono tracking-wider text-orange-400">
+                        <span class="flex items-center gap-1.5 truncate">
+                            <span class="w-2 h-2 rounded-full bg-orange-500 animate-ping shrink-0"></span>
+                            <span class="truncate">اتصال هسته عصبی (Neural Link)</span>
+                        </span>
+                        <span class="text-orange-300/80 shrink-0">همگام‌سازی</span>
+                    </div>
+                    <div class="w-full h-1.5 bg-orange-950/50 rounded-full overflow-hidden border border-orange-500/25">
+                        <div class="h-full bg-gradient-to-r from-orange-600 via-amber-500 to-orange-400 rounded-full w-[90%] animate-pulse"></div>
+                    </div>
                 </div>
-            </div>
-            <!-- ایجنت ۳ (DataMarket) -->
-            <div class="flex items-center justify-between bg-black/40 hover:bg-black/60 px-2 py-1.5 rounded border border-orange-500/20 hover:border-orange-500/50">
-                <div><span class="text-green-400 font-bold tracking-wider text-[9px]">ONLINE</span></div>
-                <div class="flex items-center space-x-2.5 space-x-reverse">
-                    <span class="text-slate-200 tracking-wide font-semibold">DataMarket</span>
-                    <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.8)] flex-shrink-0"></span>
-                </div>
-            </div>
-            <!-- ایجنت ۴ -->
-            <div class="flex items-center justify-between bg-black/40 hover:bg-black/60 px-2 py-1.5 rounded border border-orange-500/20 hover:border-orange-500/50">
-                <div><span class="text-green-400 font-bold tracking-wider text-[9px]">ONLINE</span></div>
-                <div class="flex items-center space-x-2.5 space-x-reverse">
-                    <span class="text-slate-200 tracking-wide font-semibold">MarketPulse</span>
-                    <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.8)] flex-shrink-0"></span>
-                </div>
-            </div>
-            <!-- ایجنت ۵ -->
-            <div class="flex items-center justify-between bg-black/40 hover:bg-black/60 px-2 py-1.5 rounded border border-orange-500/20 hover:border-orange-500/50">
-                <div><span class="text-green-400 font-bold tracking-wider text-[9px]">ONLINE</span></div>
-                <div class="flex items-center space-x-2.5 space-x-reverse">
-                    <span class="text-slate-200 tracking-wide font-semibold">TribeSupervisor</span>
-                    <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.8)] flex-shrink-0"></span>
+                <div class="neural-link-box p-1.5 bg-slate-100 dark:bg-black/60 border border-orange-500/20 rounded text-[9px] text-slate-600 dark:text-slate-400 text-center font-mono shrink-0">
+                    پروتکل تاکتیکال فعال • ارتباط امن عصبی
                 </div>
             </div>
         </div>
-    </div>
-
-    <!-- ۲. بخش وسط پنل: باکس گرافیکی نئونی و تله‌متری -->
-    <div class="p-3 bg-black/60 border border-orange-500/40 rounded-lg shadow-[0_0_15px_rgba(255,120,0,0.15)] backdrop-blur-sm space-y-2.5 w-full box-border">
-        <!-- هدر بالا -->
-        <div class="flex items-center justify-between text-[10px] sm:text-xs font-mono tracking-wider text-orange-400">
-            <span class="flex items-center gap-1.5 truncate">
-                <span class="w-2 h-2 rounded-full bg-orange-500 animate-ping shrink-0"></span>
-                <span class="truncate">NEURAL_CORE_LINK</span>
-            </span>
-            <span class="text-orange-300/80 shrink-0">SYNCHRONIZED</span>
-        </div>
-
-        <!-- نوار پیشرفت و درصد فرکانس -->
-        <div class="space-y-1">
-            <div class="flex justify-between items-center text-[9px] sm:text-[10px] font-mono text-slate-400">
-                <span class="truncate">SYNAPSE FREQUENCY</span>
-                <span class="text-orange-400 font-bold shrink-0">99.8%</span>
-            </div>
-            <div class="w-full h-1.5 bg-orange-950/50 rounded-full overflow-hidden border border-orange-500/20">
-                <div class="h-full bg-gradient-to-r from-orange-600 via-amber-500 to-orange-400 rounded-full w-[85%] animate-pulse"></div>
-            </div>
-        </div>
-
-        <!-- فوتر پایین باکس -->
-        <div class="flex flex-wrap justify-between items-center pt-1.5 border-t border-orange-500/20 text-[9px] sm:text-[10px] font-mono text-slate-400 gap-1">
-            <span class="truncate">ENC: <strong class="text-orange-300">QUANTUM-AES</strong></span>
-            <span class="text-orange-500 font-semibold shrink-0">SECURE // OK</span>
-        </div>
-    </div>
-
-    <!-- ۳. بخش پایین پنل: متن تاکتیکی -->
-    <div class="p-1.5 bg-slate-100 dark:bg-black/60 border border-orange-500/20 rounded text-[9px] text-slate-600 dark:text-slate-400 text-center font-mono shrink-0">
-        TACTICAL PROTOCOL ENGAGED<br>SECURE NEURAL LINK
-    </div>
-
-</div>
 
     </main>
 
-    <script>
-        let currentSessionId = "session-" + Math.random().toString(36).substring(2, 9);
-        let chatHistory = [];
+    <!-- Modal for Features / Modals -->
+    <div id="feature-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="cyber-card bg-zinc-900/90 border border-orange-500/40 rounded-2xl p-6 w-full max-w-md space-y-4 shadow-2xl backdrop-blur-md">
+            <div class="flex items-center justify-between border-b border-orange-500/20 pb-3">
+                <h3 id="feature-modal-title" class="text-orange-400 font-bold text-sm text-right">وضعیت سیستم</h3>
+                <button onclick="closeFeatureModal()" class="text-slate-400 hover:text-orange-400 text-lg font-mono cursor-pointer">✕</button>
+            </div>
+            <p class="text-slate-300 text-xs text-right leading-relaxed py-2">
+                این ماژول در حال توسعه است و به زودی با اتصال کامل به هسته پردازشی در دسترسی شما قرار خواهد گرفت.
+            </p>
+            <div class="flex justify-end pt-2">
+                <button onclick="closeFeatureModal()" class="px-4 py-1.5 rounded-xl bg-orange-600 hover:bg-orange-500 text-white text-xs font-bold transition-all cursor-pointer">متوجه شدم</button>
+            </div>
+        </div>
+    </div>
 
-        function toggleTheme() {
-            const html = document.documentElement;
-            const svgIcon = document.getElementById('theme-icon-svg');
-            if (!svgIcon) return;
+    <!-- Plus Menu Modal -->
+    <div id="plus-menu-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="cyber-card bg-zinc-900/95 border border-orange-500/40 rounded-2xl p-4 w-full max-w-xs space-y-2 shadow-2xl backdrop-blur-md text-right">
+            <div class="flex justify-between items-center border-b border-orange-500/20 pb-2 mb-2">
+                <span class="text-orange-400 font-bold text-xs">افزودن محتوا و ابزار</span>
+                <button onclick="closePlusMenu()" class="text-slate-400 hover:text-white">✕</button>
+            </div>
+            <button onclick="openFeatureModal('آپلود تصویر و اسناد')" class="w-full px-3 py-2 bg-black/40 hover:bg-orange-600/20 text-slate-200 rounded-lg flex items-center justify-between text-xs transition-all">
+                <span>آپلود فایل و اسناد</span><span>📎</span>
+            </button>
+            <button onclick="openFeatureModal('دسترسی به وب و جستجوی آنلاین')" class="w-full px-3 py-2 bg-black/40 hover:bg-orange-600/20 text-slate-200 rounded-lg flex items-center justify-between text-xs transition-all">
+                <span>جستجوی وب (Web Search)</span><span>🌐</span>
+            </button>
+            <button onclick="openFeatureModal('اجرای کد پایتون در سندباکس')" class="w-full px-3 py-2 bg-black/40 hover:bg-orange-600/20 text-slate-200 rounded-lg flex items-center justify-between text-xs transition-all">
+                <span>اجرای کد (Python Sandbox)</span><span>💻</span>
+            </button>
+        </div>
+    </div>
 
-            if (html.classList.contains('dark')) {
-                html.classList.remove('dark');
-                svgIcon.innerHTML = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>';
-            } else {
-                html.classList.add('dark');
-                svgIcon.innerHTML = '<circle cx="12" cy="12" r="5"></circle><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>';
-            }
+    <!-- Dislike Feedback Modal -->
+    <div id="dislike-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="cyber-card bg-zinc-900/95 border border-orange-500/40 rounded-2xl p-5 w-full max-w-md space-y-4 shadow-2xl text-right">
+            <div class="flex items-center justify-between border-b border-orange-500/20 pb-2">
+                <h3 class="text-orange-400 font-bold text-xs">چه مشکلی پیش آمد؟</h3>
+                <button onclick="closeDislikeModal()" class="text-slate-400 hover:text-white">✕</button>
+            </div>
+            <p class="text-slate-300 text-[11px]">بازخورد شما کمک می‌کند سیستم برای همه بهتر شود. لطفاً علت را انتخاب کنید:</p>
+            <div class="space-y-1.5 text-xs">
+                <label class="flex items-center gap-2 p-2 rounded bg-black/40 border border-orange-500/20 cursor-pointer hover:bg-orange-500/10">
+                    <input type="radio" name="dislike-reason" value="offensive" class="accent-orange-500">
+                    <span class="text-slate-200">توهین‌آمیز یا نامناسب است</span>
+                </label>
+                <label class="flex items-center gap-2 p-2 rounded bg-black/40 border border-orange-500/20 cursor-pointer hover:bg-orange-500/10">
+                    <input type="radio" name="dislike-reason" value="incorrect" class="accent-orange-500">
+                    <span class="text-slate-200">حقیقتاً نادرست یا گمراه‌کننده است</span>
+                </label>
+                <label class="flex items-center gap-2 p-2 rounded bg-black/40 border border-orange-500/20 cursor-pointer hover:bg-orange-500/10">
+                    <input type="radio" name="dislike-reason" value="personalization" class="accent-orange-500">
+                    <span class="text-slate-200">مشکل شخصی‌سازی داشته است</span>
+                </label>
+                <label class="flex items-center gap-2 p-2 rounded bg-black/40 border border-orange-500/20 cursor-pointer hover:bg-orange-500/10">
+                    <input type="radio" name="dislike-reason" value="instructions" class="accent-orange-500">
+                    <span class="text-slate-200">عدم رعایت دستورالعمل‌ها</span>
+                </label>
+            </div>
+            <div class="flex justify-end gap-2 pt-2">
+                <button onclick="closeDislikeModal()" class="px-3 py-1.5 rounded bg-zinc-800 text-slate-300 text-xs">انصراف</button>
+                <button onclick="submitDislikeFeedback()" class="px-4 py-1.5 rounded bg-orange-600 hover:bg-orange-500 text-white text-xs font-bold">ارسال بازخورد</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rename Modal -->
+    <div id="rename-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="cyber-card bg-zinc-900 border border-orange-500/40 rounded-xl p-4 w-full max-w-sm space-y-3">
+            <h3 class="text-orange-400 font-bold text-xs text-right">تغییر نام گفتگو</h3>
+            <input type="text" id="rename-input" class="w-full bg-black/50 border border-orange-500/30 rounded px-3 py-1.5 text-xs text-white focus:outline-none text-right">
+            <div class="flex justify-end gap-2 pt-2">
+                <button onclick="closeRenameModal()" class="px-3 py-1 rounded bg-zinc-800 text-slate-300 text-xs">انصراف</button>
+                <button onclick="confirmRename()" class="px-3 py-1 rounded bg-orange-600 text-white text-xs">تایید</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Modal -->
+    <div id="delete-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="cyber-card bg-zinc-900 border border-orange-500/40 rounded-xl p-4 w-full max-w-sm space-y-3 text-right">
+            <h3 class="text-red-400 font-bold text-xs">حذف گفتگو</h3>
+            <p class="text-slate-300 text-xs">آیا از حذف این گفتگو اطمینان دارید؟</p>
+            <div class="flex justify-end gap-2 pt-2">
+                <button onclick="closeDeleteModal()" class="px-3 py-1 rounded bg-zinc-800 text-slate-300 text-xs">انصراف</button>
+                <button onclick="confirmDelete()" class="px-3 py-1 rounded bg-red-600 text-white text-xs">حذف</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Share Modal -->
+    <div id="share-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="cyber-card bg-zinc-900 border border-orange-500/40 rounded-xl p-4 w-full max-w-sm space-y-3 text-right">
+            <h3 class="text-orange-400 font-bold text-xs">اشتراک‌گذاری گفتگو</h3>
+            <input type="text" id="share-link-input" readonly class="w-full bg-black/50 border border-orange-500/30 rounded px-3 py-1.5 text-xs text-white focus:outline-none text-left" dir="ltr">
+            <div class="flex justify-end gap-2 pt-2">
+                <button onclick="closeShareModal()" class="px-3 py-1 rounded bg-zinc-800 text-slate-300 text-xs">بستن</button>
+                <button onclick="copyShareLink()" class="px-3 py-1 rounded bg-orange-600 text-white text-xs">کپی لینک</button>
+            </div>
+        </div>
+    </div>
+
+<script>
+    let currentSessionId = "session-" + Math.random().toString(36).substring(2, 9);
+    let chatHistory = [];
+
+    let chatSessions = JSON.parse(localStorage.getItem('chatSessions')) || [
+        { id: '1', title: 'بررسی و بهینه‌سازی کدهای پروژه RAG', pinned: true, messages: [] },
+        { id: '2', title: 'تحلیل نوسانات قیمت میلگرد و بازار آهن', pinned: false, messages: [] }
+    ];
+
+    let activeSessionId = chatSessions.length > 0 ? chatSessions[0].id : null;
+    let targetSessionId = null;
+
+    function toggleTheme() {
+        const html = document.documentElement;
+        const svgIcon = document.getElementById('theme-icon-svg');
+        if (!svgIcon) return;
+
+        if (html.classList.contains('dark')) {
+            html.classList.remove('dark');
+            svgIcon.innerHTML = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>';
+        } else {
+            html.classList.add('dark');
+            svgIcon.innerHTML = '<circle cx="12" cy="12" r="5"></circle><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l..."></path>';
         }
+    }
 
-        function copyTextToClipboard(text, btnElement) {
-            if (!btnElement) return;
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(text).then(() => {
-                    showCopySuccess(btnElement);
-                }).catch(() => {
-                    fallbackCopyText(text, btnElement);
-                });
-            } else {
-                fallbackCopyText(text, btnElement);
-            }
-        }
-
-        function fallbackCopyText(text, btnElement) {
-            const textArea = document.createElement("textarea");
-            textArea.value = text;
-            textArea.style.position = "fixed";
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
-            try {
-                document.execCommand('copy');
+    function copyTextToClipboard(text, btnElement) {
+        if (!btnElement) return;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(() => {
                 showCopySuccess(btnElement);
-            } catch (err) {}
-            document.body.removeChild(textArea);
+            }).catch(() => {
+                fallbackCopyText(text, btnElement);
+            });
+        } else {
+            fallbackCopyText(text, btnElement);
+        }
+    }
+
+    function fallbackCopyText(text, btnElement) {
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+        textArea.style.position = "fixed";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        try {
+            document.execCommand('copy');
+            showCopySuccess(btnElement);
+        } catch (err) {}
+        document.body.removeChild(textArea);
+    }
+
+    function showCopySuccess(btnElement) {
+        if (!btnElement) return;
+        btnElement.style.backgroundColor = 'rgba(234, 88, 12, 0.25)';
+        const originalHTML = btnElement.innerHTML;
+        btnElement.innerHTML = '<svg class="w-4 h-4 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>';
+        setTimeout(() => {
+            if (btnElement) {
+                btnElement.style.backgroundColor = '';
+                btnElement.innerHTML = originalHTML;
+            }
+        }, 2000);
+    }
+
+    function handleLike(btn) {
+        const container = btn.closest('.flex');
+        const dislikeBtn = container.querySelector('.dislike-btn');
+        
+        btn.classList.toggle('bg-green-500/20');
+        btn.classList.toggle('text-green-400');
+        btn.style.background = btn.classList.contains('bg-green-500/20') ? 'rgba(34, 197, 94, 0.25)' : '';
+
+        if (dislikeBtn) {
+            dislikeBtn.classList.remove('bg-orange-600/20', 'text-orange-500');
+            dislikeBtn.style.background = '';
+        }
+    }
+
+    function handleDislike(btn) {
+        const container = btn.closest('.flex');
+        const likeBtn = container.querySelector('.like-btn');
+        
+        btn.classList.toggle('bg-orange-600/20');
+        btn.classList.toggle('text-orange-500');
+        btn.style.background = btn.classList.contains('bg-orange-600/20') ? 'rgba(234, 88, 12, 0.25)' : '';
+
+        if (likeBtn) {
+            likeBtn.classList.remove('bg-green-500/20', 'text-green-400');
+            likeBtn.style.background = '';
         }
 
-        function showCopySuccess(btnElement) {
-            if (!btnElement) return;
-            const originalHTML = btnElement.innerHTML;
-            btnElement.innerHTML = '<svg class="w-4 h-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>';
-            setTimeout(() => {
-                if (btnElement) btnElement.innerHTML = originalHTML;
-            }, 2000);
+        if (btn.classList.contains('bg-orange-600/20')) {
+            document.getElementById('dislike-modal').classList.remove('hidden');
+        }
+    }
+
+    function closeDislikeModal() {
+        document.getElementById('dislike-modal').classList.add('hidden');
+    }
+
+    function submitDislikeFeedback() {
+        alert('بازخورد شما با موفقیت ثبت شد. متشکریم!');
+        closeDislikeModal();
+    }
+
+    function toggleRefreshMenu(event, menuId) {
+        event.stopPropagation();
+        document.querySelectorAll('[id^="refresh-menu-"]').forEach(el => {
+            if (el.id !== menuId) el.classList.add('hidden');
+        });
+        const menu = document.getElementById(menuId);
+        if (menu) menu.classList.toggle('hidden');
+    }
+
+    function handleRefreshAction(actionType, responseId) {
+        alert(`دستور ${actionType} برای این پاسخ اعمال شد.`);
+        document.querySelectorAll('[id^="refresh-menu-"]').forEach(el => el.classList.add('hidden'));
+    }
+
+    function togglePlusMenu(event) {
+        event.stopPropagation();
+        document.getElementById('plus-menu-modal').classList.toggle('hidden');
+    }
+    function closePlusMenu() {
+        document.getElementById('plus-menu-modal').classList.add('hidden');
+    }
+
+    function escapeHTML(str) {
+        return str.replace(/[&<>'"]/g, 
+            tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+        );
+    }
+
+    function renderHistory() {
+        const container = document.getElementById('dynamic-history-container');
+        if (!container) return;
+
+        if (chatSessions.length === 0) {
+            container.innerHTML = `
+                <div class="bg-black/30 p-2 rounded-lg border border-orange-500/15 text-slate-500 italic text-right">
+                    هنوز گفتگویی ثبت نشده است...
+                </div>
+            `;
+            return;
         }
 
-        function handleLike(btnElement, dislikeBtnId, countSpanId, dislikeCountSpanId) {
-            const likeCountSpan = document.getElementById(countSpanId);
-            const dislikeCountSpan = document.getElementById(dislikeCountSpanId);
-            const dislikeBtn = document.getElementById(dislikeBtnId);
-            if (!likeCountSpan || !dislikeCountSpan || !dislikeBtn || !btnElement) return;
+        chatSessions.sort((a, b) => b.pinned - a.pinned);
 
-            let currentLikes = parseInt(likeCountSpan.innerText) || 0;
-            let currentDislikes = parseInt(dislikeCountSpan.innerText) || 0;
+        container.innerHTML = '';
+        chatSessions.forEach((session, index) => {
+            const isActive = session.id === activeSessionId;
+            const item = document.createElement('div');
+            
+            let baseClasses = "group relative flex items-center justify-between px-2.5 py-2 rounded-lg border transition-all cursor-pointer box-border overflow-visible";
+            let stateClasses = isActive 
+                ? " bg-orange-600/20 border-orange-500/60 shadow-md shadow-orange-600/10" 
+                : session.pinned 
+                    ? " bg-orange-500/10 border-orange-500/40 hover:bg-orange-500/15" 
+                    : " bg-black/30 border-orange-500/15 hover:bg-orange-500/10 hover:border-orange-500/30";
+            
+            item.className = baseClasses + stateClasses;
+            
+            const openUpward = index >= chatSessions.length - 2;
+            const dropdownPositionClass = openUpward ? "bottom-full mb-1" : "top-full mt-1";
 
-            if (dislikeBtn.classList.contains('disliked')) {
-                dislikeBtn.classList.remove('disliked', 'text-red-500', 'text-red-400');
-                dislikeBtn.classList.add('text-orange-500', 'dark:text-orange-400');
-                currentDislikes = Math.max(0, currentDislikes - 1);
-                dislikeCountSpan.innerText = currentDislikes;
-            }
+            item.innerHTML = `
+                <div class="flex items-center space-x-2 space-x-reverse overflow-visible flex-grow" onclick="selectSession('${session.id}')">
+                    ${session.pinned ? '<span class="text-orange-400 text-xs shrink-0">📌</span>' : ''}
+                    <span class="text-slate-200 truncate text-right text-[11px] font-medium font-sans w-full">${escapeHTML(session.title)}</span>
+                </div>
+                <div class="relative flex items-center shrink-0 pr-1">
+                    <button onclick="toggleDropdown(event, '${session.id}')" class="opacity-0 group-hover:opacity-100 text-slate-400 hover:text-orange-400 p-1 transition-opacity z-30">
+                        ⋮
+                    </button>
+                    <div id="dropdown-${session.id}" class="hidden absolute left-0 ${dropdownPositionClass} w-44 cyber-card bg-zinc-900 border border-orange-500/40 rounded-xl shadow-2xl z-[99999] py-1 text-right backdrop-blur-md">
+                        <button onclick="openShareModal('${session.id}')" class="w-full text-right px-3 py-2 hover:bg-orange-600/20 text-slate-200 hover:text-white flex items-center justify-between text-[11px] transition-all">
+                            <span>هم‌‌رسانی مکالمه</span><span>🔗</span>
+                        </button>
+                        <button onclick="togglePin('${session.id}')" class="w-full text-right px-3 py-2 hover:bg-orange-600/20 text-slate-200 hover:text-white flex items-center justify-between text-[11px] transition-all">
+                            <span>${session.pinned ? 'برداشتن سنجاق' : 'سنجاق کردن'}</span><span>📌</span>
+                        </button>
+                        <button onclick="openRenameModal('${session.id}')" class="w-full text-right px-3 py-2 hover:bg-orange-600/20 text-slate-200 hover:text-white flex items-center justify-between text-[11px] transition-all">
+                            <span>تغییر نام</span><span>✏️</span>
+                        </button>
+                        <button onclick="openFeatureModal('افزودن مکالمه به دفترچه یادداشت')" class="w-full text-right px-3 py-2 hover:bg-orange-600/20 text-slate-200 hover:text-white flex items-center justify-between text-[11px] transition-all">
+                            <span>افزودن به دفترچه</span><span>📒</span>
+                        </button>
+                        <button onclick="openDeleteModal('${session.id}')" class="w-full text-right px-3 py-2 hover:bg-red-600/20 text-red-400 hover:text-red-300 flex items-center justify-between text-[11px] border-t border-orange-500/15 transition-all">
+                            <span>حذف</span><span>🗑️</span>
+                        </button>
+                    </div>
+                </div>
+            `;
+            container.appendChild(item);
+        });
 
-            if (!btnElement.classList.contains('liked')) {
-                btnElement.classList.add('liked', 'text-green-500');
-                btnElement.classList.remove('text-orange-500', 'dark:text-orange-400');
-                currentLikes += 1;
-            } else {
-                btnElement.classList.remove('liked', 'text-green-500');
-                btnElement.classList.add('text-orange-500', 'dark:text-orange-400');
-                currentLikes = Math.max(0, currentLikes - 1);
-            }
-            likeCountSpan.innerText = currentLikes;
-        }
+        localStorage.setItem('chatSessions', JSON.stringify(chatSessions));
+    }
 
-        function handleDislike(btnElement, likeBtnId, countSpanId, likeCountSpanId) {
-            const dislikeCountSpan = document.getElementById(countSpanId);
-            const likeCountSpan = document.getElementById(likeCountSpanId);
-            const likeBtn = document.getElementById(likeBtnId);
-            if (!dislikeCountSpan || !likeCountSpan || !likeBtn || !btnElement) return;
+    function selectSession(id) {
+        activeSessionId = id;
+        currentSessionId = id;
+        renderHistory();
 
-            let currentDislikes = parseInt(dislikeCountSpan.innerText) || 0;
-            let currentLikes = parseInt(likeCountSpan.innerText) || 0;
+        const session = chatSessions.find(s => s.id === id);
+        const chatBox = document.getElementById('chat-box');
+        const centerPanel = document.getElementById('panel-center');
+        const typewriterEl = document.getElementById('typewriter');
 
-            if (likeBtn.classList.contains('liked')) {
-                likeBtn.classList.remove('liked', 'text-green-500');
-                likeBtn.classList.add('text-orange-500', 'dark:text-orange-400');
-                currentLikes = Math.max(0, currentLikes - 1);
-                likeCountSpan.innerText = currentLikes;
-            }
-
-            if (!btnElement.classList.contains('disliked')) {
-                btnElement.classList.add('disliked', 'text-red-500');
-                btnElement.classList.remove('text-orange-500', 'dark:text-orange-400');
-                currentDislikes += 1;
-            } else {
-                btnElement.classList.remove('disliked', 'text-red-500');
-                btnElement.classList.add('text-orange-500', 'dark:text-orange-400');
-                currentDislikes = Math.max(0, currentDislikes - 1);
-            }
-            dislikeCountSpan.innerText = currentDislikes;
-        }
-
-        function editUserMessage(text) {
-            const inputField = document.getElementById('user-input');
-            if (inputField) {
-                inputField.value = text;
-                inputField.focus();
-            }
-        }
-
-        function startNewChat() {
-            currentSessionId = "session-" + Math.random().toString(36).substring(2, 9);
-            chatHistory = [];
-            const chatBox = document.getElementById('chat-box');
-            const centerPanel = document.getElementById('panel-center');
+        if (session) {
             if (chatBox) {
-                chatBox.innerHTML = '<div id="typewriter" class="text-orange-500 dark:text-orange-400 font-mono text-base font-semibold tracking-wide flex items-center justify-center h-full drop-shadow-[0_0_10px_rgba(255,120,0,0.8)]"></div>';
+                chatBox.innerHTML = '';
+                if (typewriterEl) typewriterEl.style.display = 'none';
+                
+                if (session.messages && session.messages.length > 0) {
+                    if (centerPanel) centerPanel.classList.add('chat-expanded');
+                    session.messages.forEach((msg, idx) => {
+                        const uniqueId = id + '-' + idx;
+                        if (msg.role === 'user') {
+                            chatBox.innerHTML += `
+                                <div class="flex flex-col gap-2 my-2 bg-slate-100 dark:bg-black/40 p-3 rounded border border-orange-500/20 font-sans box-border">
+                                    <div class="flex justify-between items-center">
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-base">👤</span>
+                                            <span class="text-slate-900 dark:text-white text-sm font-medium select-text leading-relaxed">${escapeHTML(msg.content)}</span>
+                                        </div>
+                                        <div class="flex items-center gap-1">
+                                            <button onclick="copyTextToClipboard('${escapeHTML(msg.content)}', this)" class="w-7 h-7 rounded-full bg-black/40 hover:bg-orange-600/20 text-slate-300 flex items-center justify-center transition-all cursor-pointer text-xs" title="کپی">📋</button>
+                                            <button onclick="document.getElementById('user-input').value='${escapeHTML(msg.content)}'" class="w-7 h-7 rounded-full bg-black/40 hover:bg-orange-600/20 text-slate-300 flex items-center justify-center transition-all cursor-pointer text-xs" title="ویرایش">✏️</button>
+                                        </div>
+                                    </div>
+                                </div>`;
+                        } else {
+                            chatBox.innerHTML += `
+                                <div class="flex flex-col gap-2 bg-white dark:bg-black/80 p-3.5 rounded border border-orange-500/40 my-2 shadow-sm font-sans relative box-border">
+                                    <div class="flex items-center justify-between border-b border-orange-500/20 pb-1.5">
+                                        <span class="text-base">🤖</span>
+                                        <div class="flex items-center gap-1.5">
+                                            <button onclick="copyTextToClipboard(this.getAttribute('data-text'), this)" data-text="${escapeHTML(msg.content)}" class="w-7 h-7 rounded-full bg-black/40 hover:bg-orange-600/20 text-slate-300 flex items-center justify-center transition-all cursor-pointer text-xs" title="کپی">📋</button>
+                                            <button onclick="handleLike(this)" class="like-btn w-7 h-7 rounded-full bg-black/40 hover:bg-green-500/20 text-slate-300 flex items-center justify-center transition-all cursor-pointer text-xs" title="لایک">👍</button>
+                                            <button onclick="handleDislike(this)" class="dislike-btn w-7 h-7 rounded-full bg-black/40 hover:bg-orange-600/20 text-slate-300 flex items-center justify-center transition-all cursor-pointer text-xs" title="دیس‌لایک">👎</button>
+                                            <div class="relative">
+                                                <button onclick="toggleRefreshMenu(event, 'refresh-menu-${uniqueId}')" class="w-7 h-7 rounded-full bg-black/40 hover:bg-orange-600/20 text-slate-300 flex items-center justify-center transition-all cursor-pointer text-xs" title="تنظیمات پاسخ">🔄</button>
+                                                <div id="refresh-menu-${uniqueId}" class="hidden absolute right-0 top-8 w-44 cyber-card bg-zinc-900 border border-orange-500/30 rounded-xl shadow-2xl z-50 py-1 text-right text-xs">
+                                                    <button onclick="handleRefreshAction('طولانی‌تر', '${uniqueId}')" class="w-full text-right px-3 py-1.5 hover:bg-orange-600/20 text-slate-300 flex items-center justify-between"><span>بلندتر</span><span>📏</span></button>
+                                                    <button onclick="handleRefreshAction('کوتاه‌تر', '${uniqueId}')" class="w-full text-right px-3 py-1.5 hover:bg-orange-600/20 text-slate-300 flex items-center justify-between"><span>کوتاه‌تر</span><span>📐</span></button>
+                                                    <button onclick="handleRefreshAction('شخصی‌سازی', '${uniqueId}')" class="w-full text-right px-3 py-1.5 hover:bg-orange-600/20 text-slate-300 flex items-center justify-between"><span>شخصی‌سازی</span><span>⚙️</span></button>
+                                                    <button onclick="handleRefreshAction('امتحان مجدد', '${uniqueId}')" class="w-full text-right px-3 py-1.5 hover:bg-orange-600/20 text-slate-300 flex items-center justify-between border-t border-orange-500/10"><span>امتحان مجدد</span><span>🔄</span></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-slate-800 dark:text-white text-sm leading-relaxed whitespace-pre-line select-text">${escapeHTML(msg.content)}</div>
+                                </div>`;
+                        }
+                    });
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                } else {
+                    chatBox.innerHTML = '<div id="typewriter" class="text-orange-500 dark:text-orange-400 font-mono text-base font-semibold tracking-wide flex items-center justify-center h-full"></div>';
+                    if (centerPanel) centerPanel.classList.remove('chat-expanded');
+                    runTypewriterInit();
+                }
+
+                const lastUserMsg = session.messages ? session.messages.slice().reverse().find(m => m.role === 'user') : null;
+                const inputField = document.getElementById('user-input');
+                if (inputField) {
+                    inputField.value = lastUserMsg ? lastUserMsg.content : '';
+                }
             }
-            if (centerPanel) {
-                centerPanel.classList.remove('chat-expanded');
+        }
+    }
+
+function toggleDropdown(event, id) {
+  event.stopPropagation();
+  document.querySelectorAll('[id^="dropdown-"]').forEach(el => {
+    if (el.id !== `dropdown-${id}`) el.classList.add('hidden');
+  });
+  const dropdown = document.getElementById(`dropdown-${id}`);
+  if (dropdown) {
+    dropdown.classList.toggle('hidden');
+  }
+}
+
+    function toggleUserDropdown(event) {
+        event.stopPropagation();
+        const dropdown = document.getElementById('user-dropdown-menu');
+        if (dropdown) dropdown.classList.toggle('hidden');
+    }
+
+    window.addEventListener('click', () => {
+        document.querySelectorAll('[id^="dropdown-"]').forEach(el => el.classList.add('hidden'));
+        document.querySelectorAll('[id^="refresh-menu-"]').forEach(el => el.classList.add('hidden'));
+        const userDropdown = document.getElementById('user-dropdown-menu');
+        if (userDropdown) userDropdown.classList.add('hidden');
+    });
+
+    function startNewChat() {
+        currentSessionId = "session-" + Math.random().toString(36).substring(2, 9);
+        chatHistory = [];
+        
+        const newId = 'session-' + Date.now();
+        const newSession = { 
+            id: newId, 
+            title: 'گفتگوی جدید', 
+            pinned: false,
+            messages: []
+        };
+        chatSessions.unshift(newSession);
+        activeSessionId = newId;
+        renderHistory();
+
+        const chatBox = document.getElementById('chat-box');
+        const centerPanel = document.getElementById('panel-center');
+        const inputField = document.getElementById('user-input');
+        if (inputField) inputField.value = '';
+        if (chatBox) {
+            chatBox.innerHTML = '<div id="typewriter" class="text-orange-500 dark:text-orange-400 font-mono text-base font-semibold tracking-wide flex items-center justify-center h-full"></div>';
+        }
+        if (centerPanel) {
+            centerPanel.classList.remove('chat-expanded');
+        }
+        runTypewriterInit();
+    }
+
+    function togglePin(id) {
+        const session = chatSessions.find(s => s.id === id);
+        if (session) {
+            session.pinned = !session.pinned;
+            renderHistory();
+        }
+    }
+
+    async function sendToJarvis() {
+        const inputField = document.getElementById('user-input');
+        const chatBox = document.getElementById('chat-box');
+        const centerPanel = document.getElementById('panel-center');
+        const supervisorBadge = document.getElementById('supervisor-status');
+
+        if (!inputField || !chatBox) return;
+        const text = inputField.value.trim();
+        if (!text) return;
+
+        const words = text.split(/\s+/);
+        const smartTitle = words.slice(0, 6).join(' ') + (words.length > 6 ? '...' : '');
+
+        let currentSession = chatSessions.find(s => s.id === activeSessionId);
+        if (currentSession) {
+            if (currentSession.title.startsWith('گفتگوی جدید') || currentSession.messages.length === 0) {
+                currentSession.title = smartTitle;
             }
-            runTypewriterInit();
+            if (!currentSession.messages) currentSession.messages = [];
+            currentSession.messages.push({ role: 'user', content: text });
+        } else {
+            const newId = 'session-' + Date.now();
+            currentSession = { id: newId, title: smartTitle, pinned: false, messages: [{ role: 'user', content: text }] };
+            chatSessions.unshift(currentSession);
+            activeSessionId = newId;
+        }
+        renderHistory();
+
+        const typewriterEl = document.getElementById('typewriter');
+        if (typewriterEl) typewriterEl.style.display = 'none';
+        if (centerPanel) centerPanel.classList.add('chat-expanded');
+
+        const uniqueMsgId = 'msg-' + Date.now();
+        chatBox.innerHTML += `
+            <div class="flex flex-col gap-2 my-2 bg-slate-100 dark:bg-black/40 p-3 rounded border border-orange-500/20 font-sans box-border">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center gap-2">
+                        <span class="text-base">👤</span>
+                        <span class="text-slate-900 dark:text-white text-sm font-medium select-text leading-relaxed">${escapeHTML(text)}</span>
+                    </div>
+                    <div class="flex items-center gap-1">
+                        <button onclick="copyTextToClipboard('${escapeHTML(text)}', this)" class="w-7 h-7 rounded-full bg-black/40 hover:bg-orange-600/20 text-slate-300 flex items-center justify-center transition-all cursor-pointer text-xs" title="کپی">📋</button>
+                        <button onclick="document.getElementById('user-input').value='${escapeHTML(text)}'" class="w-7 h-7 rounded-full bg-black/40 hover:bg-orange-600/20 text-slate-300 flex items-center justify-center transition-all cursor-pointer text-xs" title="ویرایش">✏️</button>
+                    </div>
+                </div>
+            </div>`;
+
+        inputField.value = '';
+        chatBox.scrollTop = chatBox.scrollHeight;
+
+        const responseId = 'resp-' + Date.now();
+        chatBox.innerHTML += `
+            <div id="${responseId}" class="flex flex-col gap-2 bg-white dark:bg-black/80 p-3.5 rounded border border-orange-500/40 my-2 shadow-sm font-sans relative box-border">
+                <div class="flex items-center justify-between border-b border-orange-500/20 pb-1.5">
+                    <span class="text-base">🤖</span>
+                    <div class="flex items-center gap-1.5">
+                        <button id="${responseId}-copy-btn" onclick="copyTextToClipboard(document.getElementById('${responseId}-content').innerText, this)" class="w-7 h-7 rounded-full bg-black/40 hover:bg-orange-600/20 text-slate-300 flex items-center justify-center transition-all cursor-pointer text-xs" title="کپی">📋</button>
+                        <button onclick="handleLike(this)" class="like-btn w-7 h-7 rounded-full bg-black/40 hover:bg-green-500/20 text-slate-300 flex items-center justify-center transition-all cursor-pointer text-xs" title="لایک">👍</button>
+                        <button onclick="handleDislike(this)" class="dislike-btn w-7 h-7 rounded-full bg-black/40 hover:bg-orange-600/20 text-slate-300 flex items-center justify-center transition-all cursor-pointer text-xs" title="دیس‌لایک">👎</button>
+                        <div class="relative">
+                            <button onclick="toggleRefreshMenu(event, 'refresh-menu-${uniqueMsgId}')" class="w-7 h-7 rounded-full bg-black/40 hover:bg-orange-600/20 text-slate-300 flex items-center justify-center transition-all cursor-pointer text-xs" title="تنظیمات پاسخ">🔄</button>
+                            <div id="refresh-menu-${uniqueMsgId}" class="hidden absolute right-0 top-8 w-44 cyber-card bg-zinc-900 border border-orange-500/30 rounded-xl shadow-2xl z-50 py-1 text-right text-xs">
+                                <button onclick="handleRefreshAction('طولانی‌تر', '${uniqueMsgId}')" class="w-full text-right px-3 py-1.5 hover:bg-orange-600/20 text-slate-300 flex items-center justify-between"><span>بلندتر</span><span>📏</span></button>
+                                <button onclick="handleRefreshAction('کوتاه‌تر', '${uniqueMsgId}')" class="w-full text-right px-3 py-1.5 hover:bg-orange-600/20 text-slate-300 flex items-center justify-between"><span>کوتاه‌تر</span><span>📐</span></button>
+                                <button onclick="handleRefreshAction('شخصی‌سازی', '${uniqueMsgId}')" class="w-full text-right px-3 py-1.5 hover:bg-orange-600/20 text-slate-300 flex items-center justify-between"><span>شخصی‌سازی</span><span>⚙️</span></button>
+                                <button onclick="handleRefreshAction('امتحان مجدد', '${uniqueMsgId}')" class="w-full text-right px-3 py-1.5 hover:bg-orange-600/20 text-slate-300 flex items-center justify-between border-t border-orange-500/10"><span>امتحان مجدد</span><span>🔄</span></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="${responseId}-content" class="text-slate-800 dark:text-white text-sm leading-relaxed whitespace-pre-line select-text">در حال پردازش...</div>
+            </div>`;
+        chatBox.scrollTop = chatBox.scrollHeight;
+
+        const contentSpan = document.getElementById(responseId + '-content');
+
+        if(supervisorBadge) {
+            supervisorBadge.innerText = "SUPERVISOR: PROCESSING";
+            supervisorBadge.className = "flex items-center justify-center h-7 px-3 rounded text-[11px] bg-red-100 dark:bg-red-950/80 text-red-600 dark:text-red-400 border border-red-500/30";
         }
 
-        async function sendToJarvis() {
-            const inputField = document.getElementById('user-input');
-            const chatBox = document.getElementById('chat-box');
-            const centerPanel = document.getElementById('panel-center');
-            const supervisorBadge = document.getElementById('supervisor-status');
+        try {
+            const response = await fetch('http://213.233.184.171:8000/api/chat/stream', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    message: text,
+                    history: chatHistory,
+                    session_id: currentSessionId
+                })
+            });
 
-            if (!inputField || !chatBox) return;
-            const text = inputField.value.trim();
-            if (!text) return;
+            if (!response.ok) throw new Error('خطا در پاسخ سرور');
 
-            const typewriterEl = document.getElementById('typewriter');
-            if (typewriterEl) {
-                typewriterEl.style.display = 'none';
-            }
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder('utf-8');
+            let fullResponseText = "";
 
-            if (centerPanel) {
-                centerPanel.classList.add('chat-expanded');
-            }
+            while (true) {
+                const { value, done } = await reader.read();
+                if (done) break;
 
-            const userMsgId = 'user-msg-' + Date.now();
-            const escapedTextForEdit = text.replace(/'/g, "\\'").replace(/"/g, '&quot;');
-            const escapedTextForCopy = text.replace(/'/g, "\\'").replace(/"/g, '&quot;');
-
-            chatBox.innerHTML += `
-                <div class="flex flex-col gap-2 my-2 bg-slate-100 dark:bg-black/40 p-3 rounded border border-orange-500/20" id="${userMsgId}">
-                    <div class="flex justify-between items-start">
-                        <div class="flex items-center gap-2">
-                            <span class="text-base">👤</span>
-                            <span class="text-slate-900 dark:text-white text-sm font-medium select-text leading-relaxed">${escapeHtml(text)}</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <button onclick="editUserMessage('${escapedTextForEdit}')" class="text-orange-600 dark:text-orange-400 hover:text-orange-500 p-1 rounded hover:bg-orange-500/10 transition-colors">
-                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
-                            </button>
-                            <button onclick="copyTextToClipboard('${escapedTextForCopy}', this)" class="text-orange-600 dark:text-orange-400 hover:text-orange-500 p-1 rounded hover:bg-orange-500/10 transition-colors">
-                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
-                            </button>
-                        </div>
-                    </div>
-                </div>`;
-
-            inputField.value = '';
-            chatBox.scrollTop = chatBox.scrollHeight;
-
-            const responseId = 'resp-' + Date.now();
-            const likeBtnId = 'like-btn-' + Date.now();
-            const dislikeBtnId = 'dislike-btn-' + Date.now();
-            const likeCountId = 'like-count-' + Date.now();
-            const dislikeCountId = 'dislike-count-' + Date.now();
-
-            chatBox.innerHTML += `
-                <div id="${responseId}" class="flex flex-col gap-2 bg-white dark:bg-black/80 p-3.5 rounded border border-orange-500/40 my-2 shadow-sm">
-                    <div class="flex items-center justify-between border-b border-orange-500/20 pb-1.5">
-                        <div class="flex items-center gap-2">
-                            <span class="text-base">🤖</span>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <button id="${likeBtnId}" onclick="handleLike(this, '${dislikeBtnId}', '${likeCountId}', '${dislikeCountId}')" class="flex items-center gap-1 text-orange-500 dark:text-orange-400 hover:text-green-500 transition-colors">
-                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5"></path></svg>
-                                <span id="${likeCountId}" class="text-xs font-mono">0</span>
-                            </button>
-                            <button id="${dislikeBtnId}" onclick="handleDislike(this, '${likeBtnId}', '${dislikeCountId}', '${likeCountId}')" class="flex items-center gap-1 text-orange-500 dark:text-orange-400 hover:text-red-500 transition-colors">
-                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14H5.236a2 2 0 01-1.789-2.894l3.5-7A2 2 0 018.737 3h4.018a2 2 0 01.485.06l3.76.94m-7 10v5a2 2 0 002 2h.095c.5 0 .905-.405.905-.905 0-.714.211-1.412.608-2.006L17 13V4m-7 10h2m5-10h2a2 2 0 012 2v6a2 2 0 01-2 2h-2.5"></path></svg>
-                                <span id="${dislikeCountId}" class="text-xs font-mono">0</span>
-                            </button>
-                            <button onclick="copyTextToClipboard(document.getElementById('${responseId}-content').innerText, this)" class="text-orange-600 dark:text-orange-400 hover:text-orange-500 p-1 rounded hover:bg-orange-500/10 transition-colors">
-                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
-                            </button>
-                        </div>
-                    </div>
-                    <div id="${responseId}-content" class="text-slate-800 dark:text-white text-sm leading-relaxed whitespace-pre-line select-text font-sans"></div>
-                </div>`;
-            chatBox.scrollTop = chatBox.scrollHeight;
-
-            const contentSpan = document.getElementById(responseId + '-content');
-
-            if(supervisorBadge) {
-                supervisorBadge.innerText = "SUPERVISOR: PROCESSING";
-                supervisorBadge.className = "flex items-center justify-center h-7 px-3 rounded text-[11px] bg-red-100 dark:bg-red-950/80 text-red-600 dark:text-red-400 border border-red-600 font-mono font-bold tracking-wider animate-pulse";
-            }
-
-            try {
-                const response = await fetch('http://213.233.184.171:8000/api/chat/stream', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        message: text,
-                        history: chatHistory,
-                        session_id: currentSessionId
-                    })
-                });
-
-                if (!response.ok) {
-                    throw new Error('خطا در پاسخ سرور: ' + response.status);
-                }
-
-                const reader = response.body.getReader();
-                const decoder = new TextDecoder('utf-8');
-                let fullResponseText = "";
-
-                while (true) {
-                    const { value, done } = await reader.read();
-                    if (done) break;
-
-                    const chunk = decoder.decode(value, { stream: true });
-                    const lines = chunk.split('\n');
-                    for (let line of lines) {
-                        line = line.trim();
-                        if (line.startsWith('data:')) {
-                            const jsonStr = line.replace(/^data:\s*/, '');
-                            if (jsonStr === '[DONE]') continue;
-
-                            try {
-                                const parsed = JSON.parse(jsonStr);
-                                if (parsed.type === 'token') {
-                                    fullResponseText += parsed.content;
-                                    if (contentSpan) contentSpan.innerText = fullResponseText;
-                                } else if (parsed.type === 'final_result') {
-                                    if (parsed.response_content) {
-                                        fullResponseText = parsed.response_content;
-                                        if (contentSpan) contentSpan.innerText = fullResponseText;
-                                    }
-                                }
-                            } catch (e) {}
-                        }
+                const chunk = decoder.decode(value, { stream: true });
+                const lines = chunk.split('\n');
+                for (let line of lines) {
+                    line = line.trim();
+                    if (line.startsWith('data:')) {
+                        const jsonStr = line.replace(/^data:\s*/, '');
+                        if (jsonStr === '[DONE]') continue;
+                        try {
+                            const parsed = JSON.parse(jsonStr);
+                            if (parsed.type === 'token') {
+                                fullResponseText += parsed.content;
+                                if (contentSpan) contentSpan.innerText = fullResponseText;
+                            } else if (parsed.type === 'final_result' && parsed.response_content) {
+                                fullResponseText = parsed.response_content;
+                                if (contentSpan) contentSpan.innerText = fullResponseText;
+                            }
+                        } catch (e) {}
                     }
-                    chatBox.scrollTop = chatBox.scrollHeight;
-                }
-
-                chatHistory.push(text);
-                chatHistory.push(fullResponseText);
-
-            } catch (error) {
-                console.error("خطا در ارتباط با API استریم:", error);
-                if (contentSpan) {
-                    contentSpan.classList.add('text-red-500');
-                    contentSpan.innerText = "خطا در ارتباط استریم با سرور و ایجنت‌ها!";
-                }
-            } finally {
-                if(supervisorBadge) {
-                    supervisorBadge.innerText = "SUPERVISOR: ACTIVE";
-                    supervisorBadge.className = "flex items-center justify-center h-7 px-3 rounded text-[11px] bg-orange-100 dark:bg-orange-950/80 text-orange-600 dark:text-orange-400 border border-orange-500/40 font-mono font-bold tracking-wider shadow-[0_0_12px_rgba(255,100,0,0.3)]";
                 }
                 chatBox.scrollTop = chatBox.scrollHeight;
             }
-        }
 
-        function escapeHtml(unsafe) {
-            if (!unsafe) return "";
-            return unsafe.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-        }
-
-        // رویداد کلید اینتر روی اینپوت
-        document.addEventListener('DOMContentLoaded', () => {
-            const inputField = document.getElementById('user-input');
-            if (inputField) {
-                inputField.addEventListener('keypress', function (e) {
-                    if (e.key === 'Enter') {
-                        sendToJarvis();
-                    }
-                });
-            }
-        });
-
-        // تابع مدیریت افکت تایپ‌رایتر پویا
-        function runTypewriterInit() {
-            const welcomeEl = document.getElementById('typewriter');
-            if (!welcomeEl) return;
-            const phrases = [
-                "چطور می‌توانم به شما کمک کنم؟"
-            ];
-            let phraseIndex = 0;
-            let charIndex = 0;
-            let isDeleting = false;
-            let typeSpeed = 120;
-
-            function runTypewriter() {
-                const currentEl = document.getElementById('typewriter');
-                if (!currentEl || currentEl.style.display === 'none') return;
-
-                const current = phrases[phraseIndex];
-
-                if (isDeleting) {
-                    currentEl.innerText = current.substring(0, charIndex - 1);
-                    charIndex--;
-                    typeSpeed = 60;
-                } else {
-                    currentEl.innerText = current.substring(0, charIndex + 1);
-                    charIndex++;
-                    typeSpeed = 120;
-                }
-
-                if (!isDeleting && charIndex === current.length) {
-                    isDeleting = true;
-                    typeSpeed = 2500; 
-                } else if (isDeleting && charIndex === 0) {
-                    isDeleting = false;
-                    phraseIndex = (phraseIndex + 1) % phrases.length;
-                    typeSpeed = 500;
-                }
-
-                setTimeout(runTypewriter, typeSpeed);
+            chatHistory.push(text);
+            chatHistory.push(fullResponseText);
+            
+            if (currentSession) {
+                currentSession.messages.push({ role: 'assistant', content: fullResponseText });
+                localStorage.setItem('chatSessions', JSON.stringify(chatSessions));
             }
 
-            setTimeout(runTypewriter, 800);
+        } catch (error) {
+            if (contentSpan) {
+                contentSpan.classList.add('text-red-500');
+                contentSpan.innerText = "خطا در ارتباط با سرور هوش مصنوعی!";
+            }
+        } finally {
+            if(supervisorBadge) {
+                supervisorBadge.innerText = "SUPERVISOR: ACTIVE";
+                supervisorBadge.className = "flex items-center justify-center h-7 px-3 rounded text-[11px] bg-orange-100 dark:bg-orange-950/80 text-orange-600 dark:text-orange-400 border border-orange-500/30";
+            }
+            chatBox.scrollTop = chatBox.scrollHeight;
         }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            runTypewriterInit();
-        });
-
-// بخش تله‌متری سیستم (نسخه کاملاً ایمن و اصلاح‌شده)
-async function fetchTelemetry() {
-    try {
-        const response = await fetch('http://213.233.184.171:8000/api/telemetry');
-        if (!response.ok) return;
-        const data = await response.json();
-
-        updateTelemetryUI(data);
-
-    } catch (error) {
-        // خطای شبکه به‌صورت صامت مدیریت می‌شود
     }
+
+    function runTypewriterInit() {
+  const welcomeEl = document.getElementById('typewriter');
+  if (!welcomeEl) return;
+
+  const texts = [
+    "چطور می‌توانم به شما کمک کنم؟", 
+    "سیستم آماده پاسخگویی است."
+  ];
+
+  let textIndex = 0;
+  let charIndex = 0;
+  let isDeleting = false;
+
+  function type() {
+    const currentText = texts[textIndex];
+
+    if (isDeleting) {
+      welcomeEl.innerHTML = currentText.substring(0, charIndex - 1);
+      charIndex--;
+    } else {
+      welcomeEl.innerHTML = currentText.substring(0, charIndex + 1);
+      charIndex++;
+    }
+
+    let speed = 70; // سرعت تایپ کردن
+
+    if (isDeleting) {
+      speed = 35; // سرعت پاک کردن (بک‌اسپیس)
+    }
+
+    // وقتی نوشتن یک متن کامل شد، کمی مکث کن و بعد وارد فاز پاک کردن شو
+    if (!isDeleting && charIndex === currentText.length) {
+      speed = 2000; // میزان مکث پس از نوشتن کامل متن
+      isDeleting = true;
+    } 
+    // وقتی پاک کردن متن کامل شد، برو سراغ متن بعدی
+    else if (isDeleting && charIndex === 0) {
+      isDeleting = false;
+      textIndex = (textIndex + 1) % texts.length;
+      speed = 500; // مکث قبل از شروع متن جدید
+    }
+
+    setTimeout(type, speed);
+  }
+
+  type();
 }
 
-function updateTelemetryUI(data) {
-    if (data.gpu_val !== undefined) {
-        const gpuValEl = document.getElementById('gpu-val');
-        const gpuCircleEl = document.getElementById('gpu-circle');
-        if (gpuValEl) gpuValEl.innerText = data.gpu_val + '%';
-        if (gpuCircleEl) gpuCircleEl.style.setProperty('--gpu-deg', (data.gpu_val * 3.6) + 'deg');
+    async function fetchTelemetry() {
+        try {
+            const response = await fetch('http://213.233.184.171:8000/api/telemetry');
+            if (!response.ok) return;
+            const data = await response.json();
+            updateTelemetryUI(data);
+        } catch (error) {}
     }
-    if (data.cpu_val !== undefined) {
-        const cpuValEl = document.getElementById('cpu-val');
-        const cpuCircleEl = document.getElementById('cpu-circle');
-        if (cpuValEl) cpuValEl.innerText = data.cpu_val + '%';
-        if (cpuCircleEl) cpuCircleEl.style.setProperty('--cpu-deg', (data.cpu_val * 3.6) + 'deg');
+
+    function updateTelemetryUI(data) {
+        if (data.gpu_val !== undefined) {
+            const el = document.getElementById('gpu-val');
+            if (el) el.innerText = data.gpu_val + '%';
+        }
+        if (data.cpu_val !== undefined) {
+            const el = document.getElementById('cpu-val');
+            if (el) el.innerText = data.cpu_val + '%';
+        }
+        if (data.ram_val !== undefined) {
+            const el = document.getElementById('ram-val');
+            if (el) el.innerText = data.ram_val + '%';
+        }
     }
-    if (data.ram_val !== undefined) {
-        const ramValEl = document.getElementById('ram-val');
-        const ramCircleEl = document.getElementById('ram-circle');
-        if (ramValEl) ramValEl.innerText = data.ram_val + '%';
-        if (ramCircleEl) ramCircleEl.style.setProperty('--ram-deg', (data.ram_val * 3.6) + 'deg');
+
+    function openRenameModal(id) {
+        targetSessionId = id;
+        const session = chatSessions.find(s => s.id === id);
+        const input = document.getElementById('rename-input');
+        if (session && input) {
+            input.value = session.title;
+            document.getElementById('rename-modal').classList.remove('hidden');
+        }
     }
-}
+    function closeRenameModal() { document.getElementById('rename-modal').classList.add('hidden'); }
+    function confirmRename() {
+        const input = document.getElementById('rename-input');
+        if (targetSessionId && input && input.value.trim() !== '') {
+            const session = chatSessions.find(s => s.id === targetSessionId);
+            if (session) { session.title = input.value.trim(); renderHistory(); }
+        }
+        closeRenameModal();
+    }
+    function openDeleteModal(id) { targetSessionId = id; document.getElementById('delete-modal').classList.remove('hidden'); }
+    function closeDeleteModal() { document.getElementById('delete-modal').classList.add('hidden'); }
+    function confirmDelete() {
+        if (targetSessionId) {
+            chatSessions = chatSessions.filter(s => s.id !== targetSessionId);
+            if (activeSessionId === targetSessionId) activeSessionId = chatSessions.length > 0 ? chatSessions[0].id : null;
+            renderHistory();
+        }
+        closeDeleteModal();
+    }
+    function openShareModal(id) {
+        document.getElementById('share-link-input').value = `https://ai.vesper.ir/share/${id}`;
+        document.getElementById('share-modal').classList.remove('hidden');
+    }
+    function closeShareModal() { document.getElementById('share-modal').classList.add('hidden'); }
+    function copyShareLink() {
+        navigator.clipboard.writeText(document.getElementById('share-link-input').value);
+        alert('لینک اشتراک‌گذاری کپی شد!');
+    }
+    function openFeatureModal(titleText) {
+        document.getElementById('feature-modal-title').textContent = titleText;
+        document.getElementById('feature-modal').classList.remove('hidden');
+    }
+    function closeFeatureModal() { document.getElementById('feature-modal').classList.add('hidden'); }
 
-// هر ۳ ثانیه یک‌بار اجرا می‌شود
-setInterval(fetchTelemetry, 3000);
-fetchTelemetry();
-       
+    document.addEventListener('DOMContentLoaded', () => {
+        renderHistory();
+        runTypewriterInit();
+        const inputField = document.getElementById('user-input');
+        if (inputField) {
+            inputField.addEventListener('keypress', (e) => { if (e.key === 'Enter') sendToJarvis(); });
+        }
+    });
 
-
-    </script>
+    setInterval(fetchTelemetry, 3000);
+    fetchTelemetry();
+</script>
 </body>
 </html>
